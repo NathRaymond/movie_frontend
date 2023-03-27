@@ -1,6 +1,6 @@
 /*
 * Version: 1.0.0
-* Template: Qompac-Ui - Responsive Bootstrap 5 Admin Dashboard Template
+* Template: QSA - Responsive Bootstrap 5 Admin Dashboard Template
 * Author: iqonic.design
 * Author URL: https://iqonic.design/
 * Design and Developed by: iqonic.design

@@ -51,8 +51,8 @@
                                                 <tr>
                                                     <th style="width: 50px;text-align: center;">S/N</th>
                                                     <th style="width: 230px;text-align: center;">Stock</th>
-                                                    <th style="width: 110px;text-align: center;">Quantity</th>
                                                     <th style="width: 110px;text-align: center;">Price</th>
+                                                    <th style="width: 110px;text-align: center;">Quantity</th>
                                                     <th style="width: 64px;"><button type="button"
                                                             class="btn btn-primary btn-add-row">Add</button></th>
                                                 </tr>
@@ -100,7 +100,7 @@
                                             :</label>
                                         <div class="col-sm-4">
                                             <input type="text" readonly style="text-align: right;" required
-                                                class="form-control" id="total_sum" name="all_sum">
+                                                class="form-control" id="total_sum" name="project_estimate">
                                         </div>
                                     </div>
 
@@ -233,10 +233,10 @@
             </select>
         </td>
         <td class="col-md-4 mt-3">
-            <input type="number" name="material_quantity[]" class="form-control" required>
+            <input type="number" name="material_price[]" id="unit_price-${randomId}" class="form-control pricelist" onkeyup="calculateTotalAmountForRows()" required>
         </td>
         <td class="col-md-4 mt-3">
-            <input type="number" name="material_price[]" id="unit-${randomId}" class="form-control" required>
+            <input type="number" name="material_quantity[]" id="unit-${randomId}" class="form-control" required>
         </td>
         <td style="height:30px;display:none"><input style="text-align: right; height:30px;" id="amount-${randomId}" type="text" readonly name="total_amount[]" class="form-control input" value=""></td>
         <td><button type="button" class="btn btn-danger" id="comments_remove">remove</button></td>`
@@ -288,17 +288,16 @@
             <input type="text" name="labour_name[]" class="form-control" required>
         </td>
         <td class="col-md-5 mt-3">
-            <input type="number" name="labour_amount[]" class="form-control" required>
+            <input type="number" name="labour_amount[]" class="form-control pricelist" onkeyup="calculateTotalAmountForRows()" required>
         </td>
         <td style="height:30px;display:none"><input style="text-align: right; height:30px;" id="amount-${randomId}" type="text" readonly name="total_amount[]" class="form-control input" value=""></td>
         <td><button type="button" class="btn btn-danger" id="comments_remove2">remove</button></td>`
             }
         });
 
-
         function calculateTotalAmountForRows() {
             let totalSum = 0;
-            $('input[id^="unit-"][type="text"]').each(function() {
+            $('.pricelist').each(function() {
                 const $value = $(this).val();
                 var val = !$value ? 0 : $value;
                 if (!isNaN(val)) {
@@ -310,7 +309,7 @@
 
         function calculateTotalDiscountForRows() {
             var totalUnit = 0;
-            $('input[id^="discount-"][type="text"]').each(function() {
+            $('.total').each(function() {
                 const $value = $(this).val();
                 var val = !$value ? 0 : $value;
                 if (!isNaN(val)) {

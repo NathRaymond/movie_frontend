@@ -6,7 +6,7 @@
         "storeKey": "quisetting-html",
         "setting": {
             "app_name": {
-                "value": "Qompac UI"
+                "value": "QSA"
             },
             "theme_scheme_direction": {
                 "value": "ltr"
@@ -42,7 +42,7 @@
             }
         }
     }
-    
+
     const theme = IQUtils.getQueryString('theme')
     if(theme !== '' && theme !== null) {
         setting_options = selectTheme(theme)
@@ -54,10 +54,10 @@
     if(layout !== '' && layout !== null) {
         switch(layout) {
             case 'dark':
-                setting.theme_scheme('dark')           
+                setting.theme_scheme('dark')
                 break;
             case 'semi-dark':
-                setting.theme_scheme('light') 
+                setting.theme_scheme('light')
                 setting.sidebar_color('sidebar-dark')
                 break;
             case 'full-width':
@@ -164,7 +164,7 @@
         }
     }
 
-    
+
 
     /*---------------------------------------------------------------------
                 Reset Settings

@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('headlinks')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('contents')
     <div>
@@ -99,7 +100,7 @@
                                             :</label>
                                         <div class="col-sm-4">
                                             <input type="text" readonly style="text-align: right;" required
-                                                class="form-control" id="total_sum" name="all_sum">
+                                                class="form-control" id="total_sum" name="project_estimate">
                                         </div>
                                     </div>
 
@@ -119,6 +120,8 @@
     </div>
 @endsection
 @section('scripts')
+    <script src="{{ asset('js\requestController.js') }}"></script>
+    <script src="{{ asset('js\formController.js') }}"></script>
     <script>
         $(document).ready(function() {
             $.ajaxSetup({
@@ -222,7 +225,7 @@
                     .getElementsByTagName("tr").length + 1;
                 return `<td>${rowsLength}</td>
         <td class="col-md-4 mt-3">
-            <select class="form-select stock" id="select2-${randomId}" name="material_stock[]" aria-label="select example" onchange="handleSelectedStock('${randomId}')">
+            <select class="form-select stock" id="select2-${randomId}" name="material_stock[]" aria-label="select example" onchange="handleSelectedStock('${randomId}')" required>
                 <option value="">Select Stock</option>
                 @foreach ($stocks as $stock)
                 <option value="{{ $stock->id }}" required >{{ $stock->description }}</option>
@@ -233,8 +236,9 @@
             <input type="number" name="material_quantity[]" class="form-control" required>
         </td>
         <td class="col-md-4 mt-3">
-            <input type="number" name="material_price[]" class="form-control" required>
+            <input type="number" name="material_price[]" id="unit-${randomId}" class="form-control" required>
         </td>
+        <td style="height:30px;display:none"><input style="text-align: right; height:30px;" id="amount-${randomId}" type="text" readonly name="total_amount[]" class="form-control input" value=""></td>
         <td><button type="button" class="btn btn-danger" id="comments_remove">remove</button></td>`
             }
         });
@@ -286,6 +290,7 @@
         <td class="col-md-5 mt-3">
             <input type="number" name="labour_amount[]" class="form-control" required>
         </td>
+        <td style="height:30px;display:none"><input style="text-align: right; height:30px;" id="amount-${randomId}" type="text" readonly name="total_amount[]" class="form-control input" value=""></td>
         <td><button type="button" class="btn btn-danger" id="comments_remove2">remove</button></td>`
             }
         });

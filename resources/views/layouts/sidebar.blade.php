@@ -1,5 +1,5 @@
 <div class="sidebar-header d-flex align-items-center justify-content-start">
-    <a href="index.html" class="navbar-brand">
+    <a href="/home" class="navbar-brand">
 
         <!--Logo start-->
         <div class="logo-main">
@@ -21,7 +21,8 @@
             </div>
         </div>
         <!--logo End-->
-        <h4 class="logo-title" data-setting="app_name">QSA</h4>
+        <h4 class="" data-setting="">QSA</h4>
+        {{--  <h4 class="logo-title" data-setting="app_name">QSA</h4>  --}}
     </a>
     <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
         <i class="icon">

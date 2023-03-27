@@ -603,7 +603,7 @@
                     <div class="profile-media ms-3 d-flex">
                         <div class="profile-dots-pills border-dark"></div>
                         <div class="ms-3">
-                            <h6 class="mb-0">New user added in Qompac UI</h6>
+                            <h6 class="mb-0">New user added in QSA</h6>
                         </div>
                     </div>
                 </div>

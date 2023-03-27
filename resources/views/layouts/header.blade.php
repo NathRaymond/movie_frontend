@@ -872,9 +872,9 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profile-setting">
                     <li><a class="dropdown-item" href="app/user-profile.html">Profile</a></li>
-                    <li><a class="dropdown-item" href="app/user-privacy-setting.html">Privacy
+                    {{--  <li><a class="dropdown-item" href="app/user-privacy-setting.html">Privacy
                             Setting</a></li>
-                    <li>
+                    <li>  --}}
                         <hr class="dropdown-divider">
                     </li>
                     <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>

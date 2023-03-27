@@ -75,7 +75,7 @@
                                 <path d="M23.751 30L13.2266 15.2103H21.4755L31.9999 30H23.751Z" fill="#3FF0B9" />
                             </svg>
                         </div>
-                        <h2 class="logo-title ms-3 mb-0" data-setting="app_name">QSA</h2>
+                        <h2 class="logo-title ms-3 mb-0" >QSA</h2>
                     </a>
                     <div class="row justify-content-center pt-5">
                         <div class="col-md-9">

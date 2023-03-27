@@ -59,7 +59,7 @@
         </div>
     </div>
     <!-- loader END -->
-    <aside class="sidebar sidebar-base sidebar-white sidebar-default navs-rounded-all " id="first-tour"
+    <aside class="sidebar sidebar-base sidebar-white sidebar-default navs-rounded-all " id="first-tour">
         @include('layouts.sidebar') </aside>
         <main class="main-content">
             <div class="position-relative  iq-banner ">

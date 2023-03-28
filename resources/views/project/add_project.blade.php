@@ -309,7 +309,7 @@
 
         function calculateTotalDiscountForRows() {
             var totalUnit = 0;
-            $('.total').each(function() {
+            $('input[id^="discount-"][type="text"]').each(function() {
                 const $value = $(this).val();
                 var val = !$value ? 0 : $value;
                 if (!isNaN(val)) {

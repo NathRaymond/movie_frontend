@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/download', [App\Http\Controllers\ContractorController::class, 'download'])->name('download');
 
 Route::get('/', function () {
     return view('auth.login');

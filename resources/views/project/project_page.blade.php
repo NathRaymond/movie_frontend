@@ -26,13 +26,10 @@
                                         <th>Description</th>
                                         <th>Contractor</th>
                                         <th>Project Estimated</th>
-                                        {{--  <th>Material Stock</th>
-                                        <th>Material Qunatity</th>
-                                        <th>Material Price</th>
-                                        <th>Labour Name</th>
-                                        <th>Labour Amount</th>  --}}
                                         <th>Start Date</th>
                                         <th>End Date</th>
+                                        <th>Project Status</th>
+                                        <th>Approval Status</th>
                                         <th style="min-width: 100px">Action</th>
                                     </tr>
                                 </thead>
@@ -46,6 +43,30 @@
                                             <td>{{ $project->project_estimate ?? '' }}</td>
                                             <td>{{ $project->project_start_date ?? '' }}</td>
                                             <td>{{ $project->project_end_date ?? '' }}</td>
+                                            <td>
+                                                @if ($project->status == 0)
+                                                    <span class="badge badge-soft-success"
+                                                        style="color: rgb(255, 106, 0); font-size:14px; background-color:#e5e5e5">Pending</span>
+                                                @elseif($project->status == 1)
+                                                    <span class="badge badge-soft-info"
+                                                        style="color: rgb(84, 12, 218); font-size:14px; background-color:#e5e5e5">Ongoing</span>
+                                                @else
+                                                    <span class="badge badge-soft-danger"
+                                                        style="color: green; font-size:14px; background-color:#e5e5e5">Finished</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($project->approval_status == 0)
+                                                    <span class="badge badge-soft-success"
+                                                        style="color: rgb(255, 106, 0); font-size:14px; background-color:#e5e5e5">Pending</span>
+                                                @elseif($project->approval_status == 1)
+                                                    <span class="badge badge-soft-info"
+                                                        style="color: green; font-size:14px; background-color:#e5e5e5">Approve</span>
+                                                @else
+                                                    <span class="badge badge-soft-danger"
+                                                        style="color: red; font-size:14px; background-color:#e5e5e5">Declined</span>
+                                                @endif
+                                            </td>
                                             <td>
                                                 <div class="flex align-items-center list-user-action">
                                                     <a class="btn btn-sm btn-icon btn-success rounded"
@@ -71,10 +92,8 @@
                                                             </svg>
                                                         </span>
                                                     </a>
-                                                    <a class="btn btn-sm btn-icon btn-warning rounded" data-placement="top"
-                                                        title="" data-bs-original-title="Edit" data-bs-toggle="modal"
-                                                        id="edit-stock" data-id="{{ $project->id }}"
-                                                        data-bs-target="#editModal">
+                                                    <a href="{{ route('project-details', [$project->id]) }}" class="btn btn-sm btn-icon btn-warning rounded" data-placement="top"
+                                                        title="" data-bs-original-title="Edit" id="edit-project" data-id="{{$project->id}}">
                                                         <span class="btn-inner">
                                                             <svg class="icon-20" width="20" viewBox="0 0 24 24"
                                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -171,71 +190,9 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Edit Stock</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('updatestock') }}">
-                            @csrf
-                            <input type="text" id="uId" name="id" style="display: none">
-                            <div class="form-group">
-                                <label class="form-label"> Stock Name:</label>
-                                <input type="text" name="stock_name" id="uStockname" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Description:</label>
-                                <input type="text" name="description" id="uDescription" class="form-control"
-                                    required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Price:</label>
-                                <input type="number" name="price" id="uPrice" class=" form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Quantity:</label>
-                                <input type="text" name="quantity" id="uQuantity" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Categories</label>
-                                <input type="text" name="categories" id="uCategories" class="form-control" required>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save <span
-                                        class="spinner-border loader1 spinner-border-sm" role="status"
-                                        aria-hidden="true" style="display:none"></span></button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 @section('scripts')
-    <script>
-        $(document).ready(function() {
-            $('body').on('click', '#edit-stock', function() {
-                // alert("Nathaniel")
-                var id = $(this).data('id');
-                $.get('{{ route('getstock') }}?id=' + id, function(data) {
-                    // console.log(data[2]);
-                    $('#uStockname').val(data.stock_name);
-                    $('#uDescription').val(data.description);
-                    $('#uPrice').val(data.price);
-                    $('#uQuantity').val(data.quantity);
-                    $('#uCategories').val(data.categories);
-                    $('#uId').val(id);
-                })
-            });
-        });
-    </script>
+
     <script>
         $(document).ready(function() {
             $.ajaxSetup({

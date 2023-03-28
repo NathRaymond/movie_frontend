@@ -9,5 +9,9 @@ class ProjectMaterial extends Model
 {
     use HasFactory;
     protected $table = 'project_materials';
-    protected $guarded = [];
+    protected $fillable = [
+        'material_stock',
+        'material_quantity',
+        'material_price',
+    ];
 }

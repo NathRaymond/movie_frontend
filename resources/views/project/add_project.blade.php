@@ -224,22 +224,22 @@
                 var rowsLength = document.getElementById(table_id).getElementsByTagName("tbody")[0]
                     .getElementsByTagName("tr").length + 1;
                 return `<td>${rowsLength}</td>
-        <td class="col-md-4 mt-3">
-            <select class="form-select stock" id="select2-${randomId}" name="material_stock[]" aria-label="select example" onchange="handleSelectedStock('${randomId}')" required>
-                <option value="">Select Stock</option>
-                @foreach ($stocks as $stock)
-                <option value="{{ $stock->id }}" required >{{ $stock->description }}</option>
-                @endforeach
-            </select>
-        </td>
-        <td class="col-md-4 mt-3">
-            <input type="number" name="material_price[]" id="unit_price-${randomId}" class="form-control pricelist" onkeyup="calculateTotalAmountForRows()" required>
-        </td>
-        <td class="col-md-4 mt-3">
-            <input type="number" name="material_quantity[]" id="unit-${randomId}" class="form-control" required>
-        </td>
-        <td style="height:30px;display:none"><input style="text-align: right; height:30px;" id="amount-${randomId}" type="text" readonly name="total_amount[]" class="form-control input" value=""></td>
-        <td><button type="button" class="btn btn-danger" id="comments_remove">remove</button></td>`
+                <td class="col-md-4 mt-3">
+                    <select class="form-select stock" id="select2-${randomId}" name="material_stock[]" aria-label="select example" onchange="handleSelectedStock('${randomId}')" required>
+                        <option value="">Select Stock</option>
+                        @foreach ($stocks as $stock)
+                        <option value="{{ $stock->id }}" required >{{ $stock->description }}</option>
+                        @endforeach
+                    </select>
+                </td>
+                <td class="col-md-4 mt-3">
+                    <input type="number" name="material_price[]" id="unit_price-${randomId}" class="form-control pricelist" onkeyup="calculateTotalAmountForRows()" required>
+                </td>
+                <td class="col-md-4 mt-3">
+                    <input type="number" name="material_quantity[]" id="unit-${randomId}" class="form-control" required>
+                </td>
+                <td style="height:30px;display:none"><input style="text-align: right; height:30px;" id="amount-${randomId}" type="text" readonly name="total_amount[]" class="form-control input" value=""></td>
+                <td><button type="button" class="btn btn-danger" id="comments_remove">remove</button></td>`
             }
         });
 
@@ -284,14 +284,14 @@
                 var rowsLength = document.getElementById(table_id).getElementsByTagName("tbody")[0]
                     .getElementsByTagName("tr").length + 1;
                 return `<td>${rowsLength}</td>
-        <td class="col-md-5 mt-3">
-            <input type="text" name="labour_name[]" class="form-control" required>
-        </td>
-        <td class="col-md-5 mt-3">
-            <input type="number" name="labour_amount[]" class="form-control pricelist" onkeyup="calculateTotalAmountForRows()" required>
-        </td>
-        <td style="height:30px;display:none"><input style="text-align: right; height:30px;" id="amount-${randomId}" type="text" readonly name="total_amount[]" class="form-control input" value=""></td>
-        <td><button type="button" class="btn btn-danger" id="comments_remove2">remove</button></td>`
+                <td class="col-md-5 mt-3">
+                    <input type="text" name="labour_name[]" class="form-control" required>
+                </td>
+                <td class="col-md-5 mt-3">
+                    <input type="number" name="labour_amount[]" class="form-control pricelist" onkeyup="calculateTotalAmountForRows()" required>
+                </td>
+                <td style="height:30px;display:none"><input style="text-align: right; height:30px;" id="amount-${randomId}" type="text" readonly name="total_amount[]" class="form-control input" value=""></td>
+                <td><button type="button" class="btn btn-danger" id="comments_remove2">remove</button></td>`
             }
         });
 

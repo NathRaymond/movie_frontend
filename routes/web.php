@@ -54,6 +54,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/getproject_detail', [App\Http\Controllers\ProjectController::class, 'getprojectInfor'])->name('getproject');
         Route::post('/update-project', [App\Http\Controllers\ProjectController::class, 'update_project'])->name('updateproject');
         Route::get('/delete-project', [App\Http\Controllers\ProjectController::class, 'destroy_project'])->name('delete-project');
+        Route::get('/edit_project/{id}', [App\Http\Controllers\ProjectController::class, 'projectDetails'])->name('project-details');
+    });
+    Route::group(['prefix' => 'requisition'], function () {
+        Route::get('/', [App\Http\Controllers\ProjectController::class, 'requisition_index'])->name('requisition_home');
+        Route::get('/get-requisition-pending-order', [App\Http\Controllers\ProjectController::class, 'customerPendingrequisition'])->name('get-requisition-pending-order');
+        Route::get('/get-requisition-by-id', [App\Http\Controllers\ProjectController::class, 'requistionDeliveryById'])->name('get-requisition-by-id');
     });
 });
 

@@ -248,6 +248,23 @@
                         </a>
                     </li>
                 </ul>
+                <ul class="sub-nav collapse" id="ui" data-parent="#sidebar-menu">
+                    <li class="nav-item">
+                        <a class="nav-link " href="{{ route('requisition_home') }}">
+                            <i class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
+                                    fill="currentColor">
+                                    <g>
+                                        <circle cx="12" cy="12" r="8" fill="currentColor">
+                                        </circle>
+                                    </g>
+                                </svg>
+                            </i>
+                            <i class="sidenav-mini-icon"> R</i>
+                            <span class="item-name">Requisition</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </div>

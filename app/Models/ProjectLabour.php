@@ -9,5 +9,8 @@ class ProjectLabour extends Model
 {
     use HasFactory;
     protected $table = 'project_labour';
-    protected $guarded = [];
+    protected $fillable = [
+        'labour_name',
+        'labour_amount',
+    ];
 }

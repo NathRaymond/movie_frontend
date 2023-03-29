@@ -46,6 +46,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/getstock_detail', [App\Http\Controllers\StockController::class, 'getstockInfor'])->name('getstock');
         Route::post('/update-stock', [App\Http\Controllers\StockController::class, 'update_stock'])->name('updatestock');
         Route::get('/delete-stock', [App\Http\Controllers\StockController::class, 'destroy_stock'])->name('delete-stock');
+        Route::get('/stock_price', [App\Http\Controllers\StockController::class, 'stockPrice'])->name('get_stock_price');
     });
     Route::group(['prefix' => 'project'], function () {
         Route::get('/', [App\Http\Controllers\ProjectController::class, 'project_index'])->name('project_home');
@@ -55,6 +56,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/update-project', [App\Http\Controllers\ProjectController::class, 'update_project'])->name('updateproject');
         Route::get('/delete-project', [App\Http\Controllers\ProjectController::class, 'destroy_project'])->name('delete-project');
         Route::get('/edit_project/{id}', [App\Http\Controllers\ProjectController::class, 'projectDetails'])->name('project-details');
+        Route::get('/project_approve', [App\Http\Controllers\ProjectController::class, 'project_app_approve'])->name('project_approve');
     });
     Route::group(['prefix' => 'requisition'], function () {
         Route::get('/', [App\Http\Controllers\ProjectController::class, 'requisition_index'])->name('requisition_home');

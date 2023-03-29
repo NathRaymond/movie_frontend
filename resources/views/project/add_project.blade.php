@@ -3,6 +3,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('contents')
+    <div class="preloader" style="display: none">
+        <div class="spinner-grow text-info m-1" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
     <div>
         <div class="row">
             <div class="col-sm-12">
@@ -13,7 +18,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('store-project') }}" id="createStock">
+                        <form method="POST" action="{{ route('store-project') }}" onsubmit="$('.preloader').show()"
+                            id="createStock">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6 mb-3">
@@ -36,9 +42,9 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Contractor</label>
-                                    <select name="project_contractor" id="" class="form-control">
+                                    <select class="form-control js-example-basic-single" name="project_contractor">
                                         @foreach ($contractors as $contractor)
-                                            <option value="{{$contractor->id}}">{{$contractor->name}}</option>
+                                            <option value="{{ $contractor->id }}">{{ $contractor->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -55,8 +61,8 @@
                                                 <tr>
                                                     <th style="width: 50px;text-align: center;">S/N</th>
                                                     <th style="width: 230px;text-align: center;">Stock</th>
-                                                    <th style="width: 110px;text-align: center;">Price</th>
                                                     <th style="width: 110px;text-align: center;">Quantity</th>
+                                                    <th style="width: 110px;text-align: center;">Price</th>
                                                     <th style="width: 64px;"><button type="button"
                                                             class="btn btn-primary btn-add-row">Add</button></th>
                                                 </tr>
@@ -112,8 +118,8 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary">Save <span
-                                        class="spinner-border loader1 spinner-border-sm" role="status" aria-hidden="true"
-                                        style="display:none"></span></button>
+                                        class="spinner-border loader1 spinner-border-sm" role="status"
+                                        aria-hidden="true" style="display:none"></span></button>
                             </div>
                         </form>
                     </div>
@@ -126,6 +132,11 @@
 @section('scripts')
     <script src="{{ asset('js\requestController.js') }}"></script>
     <script src="{{ asset('js\formController.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".js-example-basic-single").select2();
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $.ajaxSetup({
@@ -229,18 +240,18 @@
                     .getElementsByTagName("tr").length + 1;
                 return `<td>${rowsLength}</td>
                 <td class="col-md-4 mt-3">
-                    <select class="form-select stock" id="select2-${randomId}" name="material_stock[]" aria-label="select example" onchange="handleSelectedStock('${randomId}')" required>
-                        <option value="">Select Stock</option>
+                    <select class="form-control js-example-basic-single stock" id="select2-${randomId}"  aria-label="select example" name="material_stock[]" onchange="handleSelectedStock('${randomId}')" required>
+                        <option value="">Select Materials</option>
                         @foreach ($stocks as $stock)
                         <option value="{{ $stock->id }}" required >{{ $stock->description }}</option>
                         @endforeach
-                    </select>
+                      </select>
+                </td>
+                <td class="col-md-4 mt-3">
+                    <input type="number" name="material_quantity[]" id="unit-${randomId}" on class="form-control unit" onkeyup="recalculate()" onchange="recalculate()" required>
                 </td>
                 <td class="col-md-4 mt-3">
                     <input type="number" name="material_price[]" id="unit_price-${randomId}" class="form-control pricelist" onkeyup="calculateTotalAmountForRows()" required>
-                </td>
-                <td class="col-md-4 mt-3">
-                    <input type="number" name="material_quantity[]" id="unit-${randomId}" class="form-control" required>
                 </td>
                 <td style="height:30px;display:none"><input style="text-align: right; height:30px;" id="amount-${randomId}" type="text" readonly name="total_amount[]" class="form-control input" value=""></td>
                 <td><button type="button" class="btn btn-danger" id="comments_remove">remove</button></td>`
@@ -292,7 +303,7 @@
                     <input type="text" name="labour_name[]" class="form-control" required>
                 </td>
                 <td class="col-md-5 mt-3">
-                    <input type="number" name="labour_amount[]" class="form-control pricelist" onkeyup="calculateTotalAmountForRows()" required>
+                    <input type="number" name="labour_amount[]" class="form-control amountlist" onkeyup="calculateTotalAmountForRows()" required>
                 </td>
                 <td style="height:30px;display:none"><input style="text-align: right; height:30px;" id="amount-${randomId}" type="text" readonly name="total_amount[]" class="form-control input" value=""></td>
                 <td><button type="button" class="btn btn-danger" id="comments_remove2">remove</button></td>`
@@ -302,14 +313,46 @@
         function calculateTotalAmountForRows() {
             let totalSum = 0;
             $('.pricelist').each(function() {
+                //get the nearect unit
+                var NUnit = $(this).closest('tr').find('.unit').val();
+                if (NUnit == "") {
+                    new swal("Please input unit");
+                    return 0
+                }
+                const $value = $(this).val();
+                //alert(NUnit);
+                var val = !$value ? 0 : $value;
+
+                if (!isNaN(val)) {
+
+                    subtotal = parseFloat(val) * parseFloat(NUnit);
+
+                    totalSum = totalSum + subtotal;
+                }
+            });
+
+            totalAmount = 0;
+
+            $('.amountlist').each(function() {
                 const $value = $(this).val();
                 var val = !$value ? 0 : $value;
                 if (!isNaN(val)) {
-                    totalSum = totalSum + parseFloat(val);
+                    newval = parseFloat(val);
+                    totalAmount = totalAmount + newval;
                 }
             });
-            $("#total_sum").val(totalSum);
+
+
+
+            $("#total_sum").val(totalSum + totalAmount);
+
+
         }
+
+        function recalculate() {
+            return calculateTotalAmountForRows();
+        }
+
 
         function calculateTotalDiscountForRows() {
             var totalUnit = 0;

@@ -123,13 +123,16 @@ class ProjectController extends Controller
             }
 
             $material = ProjectMaterial::where('project_code', $projectId->project_code)->first();
-            if ($material) {
-                $this->validate($request, [
-                    'material_stock' => 'required',
-                    'material_quantity' => 'required',
-                    'material_price' => 'required',
-                ]);
-                $material->fill($input)->save();
+            $material = $input['labour_name'];
+            foreach ($material as $key => $material) {
+                if ($material) {
+                    $this->validate($request, [
+                        'material_stock' => 'required',
+                        'material_quantity' => 'required',
+                        'material_price' => 'required',
+                    ]);
+                    $material->fill($input)->save();
+                }
             }
 
             $labour = ProjectLabour::where('project_code', $projectId->project_code)->first();
@@ -162,6 +165,7 @@ class ProjectController extends Controller
         // dd($data['materials']);
         $data['labours'] = ProjectLabour::where('project_code', $projectId->project_code)->get();
         $data['stocks'] = Stock::all();
+        $data['contractors'] = Contractor::all();
         return view('project.edit_project', $data);
     }
 
@@ -195,5 +199,18 @@ class ProjectController extends Controller
                 bad_response_status_code()
             );
         }
+    }
+
+    public function project_app_approve(Request $request)
+    {
+        $updateProject = Project::where('id', $request->id)->update([
+            'approval_status' => 1,
+        ]);
+        return api_request_response(
+            'ok',
+            'Request approved successfully ',
+            success_status_code(),
+            $updateProject
+        );
     }
 }

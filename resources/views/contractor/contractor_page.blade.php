@@ -2,6 +2,11 @@
 @section('headlinks')
 @endsection
 @section('contents')
+    <div class="preloader" style="display: none">
+        <div class="spinner-grow text-info m-1" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
     <div>
         <div class="row">
             <div class="col-sm-12">
@@ -23,8 +28,7 @@
                                 <thead>
                                     <tr>
                                         <th>S/N</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
+                                        <th>Name</th>
                                         <th>Phone Number</th>
                                         <th>Email</th>
                                         <th>Address</th>
@@ -36,8 +40,7 @@
                                     @foreach ($contractors as $contractor)
                                         <tr>
                                             <td>{{ $loop->iteration ?? '' }}</td>
-                                            <td>{{ $contractor->first_name ?? '' }}</td>
-                                            <td>{{ $contractor->last_name ?? '' }}</td>
+                                            <td>{{ $contractor->name ?? '' }}</td>
                                             <td>{{ $contractor->phone_number ?? '' }}</td>
                                             <td>{{ $contractor->email ?? '' }}</td>
                                             <td>{{ $contractor->address ?? '' }}</td>
@@ -133,15 +136,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="card-body">
-                        <form method="POST" action="{{ route('store-contractor') }}" id="createUser">
+                        <form method="POST" action="{{ route('store-contractor') }}" onsubmit="$('.preloader').show()" id="createUser">
                             @csrf
                             <div class="form-group">
-                                <label class="form-label"> First Name:</label>
-                                <input type="text" name="first_name" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Last Name:</label>
-                                <input type="text" name="last_name" class="form-control" required>
+                                <label class="form-label"> Name:</label>
+                                <input type="text" name="name" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Phone Number:</label>
@@ -152,7 +151,7 @@
                                 <input type="email" name="email" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Home Address</label>
+                                <label class="form-label">Office Address</label>
                                 <input type="text" name="address" class="form-control" required>
                             </div>
                             <div class="form-group">
@@ -189,12 +188,8 @@
                             @csrf
                             <input type="text" id="uId" name="id" style="display: none">
                             <div class="form-group">
-                                <label class="form-label"> First Name:</label>
-                                <input type="text" name="first_name" id="uFirstname" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Last Name:</label>
-                                <input type="text" name="last_name" id="uLastname" class="form-control" required>
+                                <label class="form-label">Name:</label>
+                                <input type="text" name="name" id="uName" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Phone Number:</label>
@@ -205,7 +200,7 @@
                                 <input type="email" name="email" id="uEmail" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Home Address</label>
+                                <label class="form-label">Office Address</label>
                                 <input type="text" name="address" id="uAddress" class="form-control" required>
                             </div>
                             <div class="form-group">
@@ -237,8 +232,7 @@
                 var id = $(this).data('id');
                 $.get('{{ route('getcontractor') }}?id=' + id, function(data) {
                     // console.log(data[2]);
-                    $('#uFirstname').val(data.first_name);
-                    $('#uLastname').val(data.last_name);
+                    $('#uName').val(data.name);
                     $('#uPhone').val(data.phone_number);
                     $('#uEmail').val(data.email);
                     $('#uAddress').val(data.address);

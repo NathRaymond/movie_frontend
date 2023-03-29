@@ -11,6 +11,7 @@ use App\Models\Project;
 use App\Models\Stock;
 use App\Models\ProjectLabour;
 use App\Models\ProjectMaterial;
+use App\Models\Contractor;
 use App\Models\Requisition;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,6 +27,7 @@ class ProjectController extends Controller
     {
         $data['projects'] = Project::all();
         $data['stocks'] = Stock::all();
+        $data['contractors'] = Contractor::all();
         return view('project.add_project', $data);
     }
 

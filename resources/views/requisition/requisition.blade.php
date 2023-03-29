@@ -9,10 +9,10 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <div class="header-title">
-                            <h4 class="card-title">Requsition List</h4>
+                            <h4 class="card-title">Make Requsition </h4>
                         </div>
                         <div class="d-flex justify-content-between align-items-center rounded flex-wrap gap-3">
-                            {{Auth::user()->name}} > Requsition
+                            {{Auth::user()->name}} -> Requsition
                         </div>
                     </div>
                     <div class="card-body">
@@ -50,7 +50,7 @@
                                             </div>
                                         </div>
                                         <hr>
-                                        <div class="card-body">
+                                        <div class="card-body" style="display: none">
                                             <form id="frm_main" method="post" onsubmit="signUp(event)">
                                                 @csrf
                                                 <div class="col-xl-12">

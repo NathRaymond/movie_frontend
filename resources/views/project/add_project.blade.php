@@ -36,7 +36,11 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Contractor</label>
-                                    <input type="text" name="project_contractor" class="form-control" required>
+                                    <select name="project_contractor" id="" class="form-control">
+                                        @foreach ($contractors as $contractor)
+                                            <option value="{{$contractor->id}}">{{$contractor->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <hr class="hr-horizontal">

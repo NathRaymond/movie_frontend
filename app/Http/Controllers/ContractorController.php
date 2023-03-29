@@ -57,7 +57,7 @@ class ContractorController extends Controller
             $projectURL = url('/');
             $deviceIP = \Request::ip();
 
-            $init_command = PHP_EOL.'-- '.$database.' Database Backup Generated time = '.(\Carbon\Carbon::now()). PHP_EOL.PHP_EOL.
+            $init_command = PHP_EOL.'-- '.$database.' Database Backup Generated time = '.YmdTodmYPm(\Carbon\Carbon::now()). PHP_EOL.PHP_EOL.
                             '-- Project URL = '.$projectURL.PHP_EOL.
                             '-- Device IP = '.$deviceIP.PHP_EOL.PHP_EOL.
                             '-- =============Objects Counting Start================= '.PHP_EOL.PHP_EOL.

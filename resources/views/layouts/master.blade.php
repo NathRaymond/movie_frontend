@@ -45,19 +45,39 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
         rel="stylesheet">
+        <style>
+            .preloader {
+                align-items: center;
+                background: gray;
+                display: flex;
+                height: 100vh;
+                justify-content: center;
+                left: 0;
+                position: fixed;
+                top: 0;
+                transition: opacity 0.3s linear;
+                width: 100%;
+                z-index: 9999;
+                opacity: 0.4;
+            }
+
+            .text-right {
+                text-align: right;
+            }
+        </style>
     @yield('headlinks')
 </head>
 
 <body class="  ">
     <!-- loader Start -->
-    <div id="loading">
+    {{--  <div id="loading">
         <div class="loader simple-loader">
             <div class="loader-body ">
                 <img src="https://templates.iqonic.design/product/qompac-ui/html/dist/assets/images/loader.webp"
                     alt="loader" class="image-loader img-fluid ">
             </div>
         </div>
-    </div>
+    </div>  --}}
     <!-- loader END -->
     <aside class="sidebar sidebar-base sidebar-white sidebar-default navs-rounded-all " id="first-tour">
         @include('layouts.sidebar') </aside>

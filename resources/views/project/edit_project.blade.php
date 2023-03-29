@@ -3,6 +3,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('contents')
+    <div class="preloader" style="display: none">
+        <div class="spinner-grow text-info m-1" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
     <div>
         <div class="row">
             <div class="col-sm-12">
@@ -13,35 +18,39 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('updateproject') }}">
+                        <form method="POST" action="{{ route('updateproject') }}" onsubmit="$('.preloader').show()">
                             @csrf
                             <input type="hidden" id="" name="id" value="{{ $project->id }}">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Name</label>
-                                    <input type="text" name="project_name" value="{{ $project->project_name ?? ''}}"
+                                    <input type="text" name="project_name" value="{{ $project->project_name ?? '' }}"
                                         class="form-control" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Description</label>
-                                    <textarea class="form-control" name="project_description" value="{{ $project->project_description ?? ''}}" required>{{ $project->project_description ?? ''}}</textarea>
+                                    <textarea class="form-control" name="project_description" value="{{ $project->project_description ?? '' }}" required>{{ $project->project_description ?? '' }}</textarea>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="validationCustomUsername" class="form-label">Start Date</label>
                                     <div class="form-group input-group">
                                         <input type="date" name="project_start_date"
-                                            value="{{ $project->project_start_date ?? ''}}" class="form-control" required>
+                                            value="{{ $project->project_start_date ?? '' }}" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">End Date</label>
                                     <input type="date" name="project_end_date"
-                                        value="{{ $project->project_end_date ?? ''}}"class="form-control" required>
+                                        value="{{ $project->project_end_date ?? '' }}"class="form-control" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Contractor</label>
-                                    <input type="text" name="project_contractor"
-                                        value="{{ $project->project_contractor ?? '' }}" class="form-control" required>
+                                    <select name="project_contractor" class="form-control" required>
+                                        @foreach ($contractors as $contractor)
+                                            <option value="{{ $project->project_contractor ?? '' }}">{{ $contractor->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <hr class="hr-horizontal">
@@ -71,23 +80,25 @@
                                                             onchange="handleSelectedStock('${randomId}')" required>
                                                             <option value="">Select Stock</option>
                                                             @foreach ($stocks as $stock)
-                                                                <option value="{{ $stock->id }}" {{$stock->id==$material->material_stock? 'selected': ''}} required>
-                                                                    {{ $stock->description ?? ''}}</option>
+                                                                <option value="{{ $stock->id }}"
+                                                                    {{ $stock->id == $material->material_stock ? 'selected' : '' }}
+                                                                    required>
+                                                                    {{ $stock->description ?? '' }}</option>
                                                             @endforeach
                                                         </select>
                                                     </td>
                                                     <td class="col-md-4 mt-3">
                                                         <input type="number" name="material_price[]"
                                                             id="unit_price-${randomId}"
-                                                            value="{{ $material->material_price ?? ''}}"
+                                                            value="{{ $material->material_price ?? '' }}"
                                                             class="form-control pricelist"
                                                             onkeyup="calculateTotalAmountForRows()" required>
                                                     </td>
                                                     <td class="col-md-4 mt-3">
                                                         <input type="number" name="material_quantity[]"
                                                             id="unit-${randomId}"
-                                                            value="{{ $material->material_quantity ?? ''}}" class="form-control"
-                                                            required>
+                                                            value="{{ $material->material_quantity ?? '' }}"
+                                                            class="form-control" required>
                                                     </td>
                                                 </tbody>
                                             @endforeach
@@ -118,11 +129,11 @@
                                                     <td class="col-md-1 mt-3">{{ $loop->iteration ?? '' }}</td>
                                                     <td class="col-md-5 mt-3">
                                                         <input type="text" name="labour_name[]" class="form-control"
-                                                            value="{{ $labour->labour_name ?? ''}}" required>
+                                                            value="{{ $labour->labour_name ?? '' }}" required>
                                                     </td>
                                                     <td class="col-md-5 mt-3">
                                                         <input type="number" name="labour_amount[]"
-                                                            value="{{ $labour->labour_amount ?? ''}}"
+                                                            value="{{ $labour->labour_amount ?? '' }}"
                                                             class="form-control pricelist"
                                                             onkeyup="calculateTotalAmountForRows()" required>
                                                     </td>
@@ -147,7 +158,8 @@
                                             :</label>
                                         <div class="col-sm-4">
                                             <input type="text" readonly style="text-align: right;" required
-                                                class="form-control" id="total_sum" name="project_estimate" value="{{ $project->project_estimate }}">
+                                                class="form-control" id="total_sum" name="project_estimate"
+                                                value="{{ $project->project_estimate }}">
                                         </div>
                                     </div>
 

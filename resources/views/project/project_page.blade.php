@@ -2,6 +2,11 @@
 @section('headlinks')
 @endsection
 @section('contents')
+    <div class="preloader" style="display: none">
+        <div class="spinner-grow text-info m-1" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
     <div>
         <div class="row">
             <div class="col-sm-12">
@@ -55,6 +60,7 @@
                                                         style="color: green; font-size:14px; background-color:#e5e5e5">Finished</span>
                                                 @endif
                                             </td>
+                                            
                                             <td>
                                                 @if ($project->approval_status == 0)
                                                     <span class="badge badge-soft-success"
@@ -69,6 +75,18 @@
                                             </td>
                                             <td>
                                                 <div class="flex align-items-center list-user-action">
+                                                    <button class="btn btn-sm btn-success rounded"
+                                                        data-id="{{ $project->id }}" data-bs-toggle="modal"
+                                                        data-bs-target="" id="approve_btn"><span class="btn-inner">
+                                                            approve
+                                                        </span></button>
+                                                    {{--  call the reject_btn class ID in the javascript below  --}}
+                                                    <button
+                                                        class="btn btn-sm btn-danger rejectConsultant rounded reject_btn"
+                                                        data-id="{{ $project->id }}" data-bs-toggle="modal"
+                                                        data-bs-target="#modal-edit"><span class="btn-inner">
+                                                            decline
+                                                        </span></button>
                                                     <a class="btn btn-sm btn-icon btn-success rounded"
                                                         data-bs-toggle="tooltip" data-placement="top" title=""
                                                         data-bs-original-title="View" href="#">
@@ -92,8 +110,10 @@
                                                             </svg>
                                                         </span>
                                                     </a>
-                                                    <a href="{{ route('project-details', [$project->id]) }}" class="btn btn-sm btn-icon btn-warning rounded" data-placement="top"
-                                                        title="" data-bs-original-title="Edit" id="edit-project" data-id="{{$project->id}}">
+                                                    <a href="{{ route('project-details', [$project->id]) }}"
+                                                        class="btn btn-sm btn-icon btn-warning rounded" data-placement="top"
+                                                        title="" data-bs-original-title="Edit" id="edit-project"
+                                                        data-id="{{ $project->id }}">
                                                         <span class="btn-inner">
                                                             <svg class="icon-20" width="20" viewBox="0 0 24 24"
                                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -156,7 +176,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="card-body">
-                        <form method="POST" action="{{ route('store-stock') }}" id="createStock">
+                        <form method="POST" action="{{ route('store-stock') }}" onsubmit="$('.preloader').show()"
+                            id="createStock">
                             @csrf
                             <div class="form-group">
                                 <label class="form-label"> Stock Name:</label>
@@ -192,7 +213,6 @@
     </div>
 @endsection
 @section('scripts')
-
     <script>
         $(document).ready(function() {
             $.ajaxSetup({
@@ -267,6 +287,53 @@
                                 let alert = swal("Stock deleted successfully.");
                                 $(el).closest("tr").remove();
 
+                            }
+                        }
+                    );
+                } catch (e) {
+                    let alert = swal(e.message);
+                }
+            }
+
+            /* When click delete button */
+            $('body').on('click', '#approve_btn', function() {
+                var id = $(this).data('id');
+                console.log(id)
+                var token = $("meta[name='csrf-token']").attr("content");
+                var el = this;
+                // alert(user_id);
+                resetAccount(el, id);
+            });
+
+            async function resetAccount(el, id) {
+                const willUpdate = await swal({
+                    title: "Confirm Consultant Applicant Approval",
+                    text: `Are you sure you want to validate this request?`,
+                    icon: "warning",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes!",
+                    showCancelButton: true,
+                    buttons: ["Cancel", "Yes, Validate"]
+                });
+                if (willUpdate) {
+                    //performReset()
+                    performDelete(el, id);
+                } else {
+                    swal("Request not validated :)");
+                }
+            }
+
+            function performDelete(el, id) {
+                //alert(user_id);
+                try {
+                    $.get('{{ route('project_approve') }}?id=' + id,
+                        function(data, status) {
+                            console.log(status);
+                            console.table(data);
+                            if (status === "success") {
+                                let alert = swal("Request validated successfully!.");
+                                window.location.reload();
+                                $(el).closest("tr").remove();
                             }
                         }
                     );

@@ -3,6 +3,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('contents')
+<div class="preloader" style="display: none">
+    <div class="spinner-grow text-info m-1" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
     <div>
         <div class="row">
             <div class="col-sm-12">

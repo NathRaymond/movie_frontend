@@ -2,6 +2,11 @@
 @section('headlinks')
 @endsection
 @section('contents')
+<div class="preloader" style="display: none">
+    <div class="spinner-grow text-info m-1" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
     <div>
         <div class="row">
             <div class="col-sm-12">
@@ -129,7 +134,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="card-body">
-                        <form method="POST" action="{{ route('add_new_user') }}" id="createUser">
+                        <form method="POST" action="{{ route('add_new_user') }}" onsubmit="$('.preloader').show()" id="createUser">
                             @csrf
                             <div class="form-group">
                                 <label class="form-label">Name:</label>
@@ -173,7 +178,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="card-body">
-                        <form method="POST" action="{{ route('update-users') }}">
+                        <form method="POST" action="{{ route('update-users') }}" onsubmit="$('.preloader').show()">
                             @csrf
                             <input type="text" id="uId" name="id" style="display: none">
                             <div class="form-group">

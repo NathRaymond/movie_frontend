@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Contractor;
 
@@ -15,28 +16,33 @@ class ContractorController extends Controller
 
     public function store_contractor(Request $request)
     {
-        $check = Contractor::where('first_name', $request->first_name)->where('last_name', $request->last_name)->first();
-        if ($check) {
-            throw new \Exception('This Contractor name is already existing');
-        }
-        $check = Contractor::where('email', $request->email)->first();
-        if ($check) {
-            throw new \Exception('This Email is already existing');
-        }
-        $check = Contractor::where('phone_number', $request->phone_number)->first();
-        if ($check) {
-            throw new \Exception('This Phone Number is already existing');
-        }
-        $input = $request->all();
-        $input['first_name'] = $input['first_name'];
-        $input['last_name'] = $input['last_name'];
-        $input['phone_number'] = $input['phone_number'];
-        $input['email'] = $input['email'];
-        $input['address'] = $input['address'];
-        $input['sex'] = $input['sex'];
-        $contractor = Contractor::create($input);
+        try {
+            $check = Contractor::where('name', $request->name)->first();
+            if ($check) {
+                throw new \Exception('This Contractor name is already existing');
+            }
+            $check = Contractor::where('email', $request->email)->first();
+            if ($check) {
+                throw new \Exception('This Email is already existing');
+            }
+            $check = Contractor::where('phone_number', $request->phone_number)->first();
+            if ($check) {
+                throw new \Exception('This Phone Number is already existing');
+            }
 
-        return redirect()->back()->with('success', 'Contractor created successfully');
+            $input = $request->all();
+            $input['name'] = $input['name'];
+            $input['phone_number'] = $input['phone_number'];
+            $input['email'] = $input['email'];
+            $input['address'] = $input['address'];
+            $input['sex'] = $input['sex'];
+            $contractor = Contractor::create($input);
+
+            return redirect()->back()->with('success', 'Contractor created successfully');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return redirect()->back()->withErrors($exception->getMessage());
+        }
     }
 
     public function getcontractorInfor(Request $request)

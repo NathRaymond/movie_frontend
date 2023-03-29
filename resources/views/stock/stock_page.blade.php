@@ -2,6 +2,11 @@
 @section('headlinks')
 @endsection
 @section('contents')
+<div class="preloader" style="display: none">
+    <div class="spinner-grow text-info m-1" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
     <div>
         <div class="row">
             <div class="col-sm-12">
@@ -27,7 +32,7 @@
                                         <th>Description</th>
                                         <th>Price</th>
                                         <th>Quantity</th>
-                                        <th>Categories</th>
+                                        {{--  <th>Categories</th>  --}}
                                         <th style="min-width: 100px">Action</th>
                                     </tr>
                                 </thead>
@@ -39,7 +44,7 @@
                                             <td>{{ $stock->description ?? '' }}</td>
                                             <td>&#8358;{{ $stock->price ?? '' }}</td>
                                             <td>{{ $stock->quantity ?? '' }}</td>
-                                            <td>{{ $stock->categories ?? '' }}</td>
+                                            {{--  <td>{{ $stock->categories ?? '' }}</td>  --}}
                                             <td>
                                                 <div class="flex align-items-center list-user-action">
                                                     <a class="btn btn-sm btn-icon btn-success rounded"
@@ -131,7 +136,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="card-body">
-                        <form method="POST" action="{{ route('store-stock') }}" id="createStock">
+                        <form method="POST" action="{{ route('store-stock') }}" onsubmit="$('.preloader').show()" id="createStock">
                             @csrf
                             <div class="form-group">
                                 <label class="form-label"> Stock Name:</label>
@@ -149,10 +154,10 @@
                                 <label class="form-label">Quantity:</label>
                                 <input type="text" name="quantity" class="form-control" required>
                             </div>
-                            <div class="form-group">
+                            {{--  <div class="form-group">
                                 <label class="form-label">Categories</label>
                                 <input type="text" name="categories" class="form-control" required>
-                            </div>
+                            </div>  --}}
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save <span
@@ -175,7 +180,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="card-body">
-                        <form method="POST" action="{{ route('updatestock') }}">
+                        <form method="POST" action="{{ route('updatestock') }}" onsubmit="$('.preloader').show()">
                             @csrf
                             <input type="text" id="uId" name="id" style="display: none">
                             <div class="form-group">
@@ -195,10 +200,10 @@
                                 <label class="form-label">Quantity:</label>
                                 <input type="text" name="quantity" id="uQuantity" class="form-control" required>
                             </div>
-                            <div class="form-group">
+                            {{--  <div class="form-group">
                                 <label class="form-label">Categories</label>
                                 <input type="text" name="categories" id="uCategories" class="form-control" required>
-                            </div>
+                            </div>  --}}
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save <span
@@ -224,7 +229,7 @@
                     $('#uDescription').val(data.description);
                     $('#uPrice').val(data.price);
                     $('#uQuantity').val(data.quantity);
-                    $('#uCategories').val(data.categories);
+                    //$('#uCategories').val(data.categories);
                     $('#uId').val(id);
                 })
             });

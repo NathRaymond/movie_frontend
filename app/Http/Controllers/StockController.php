@@ -35,7 +35,7 @@ class StockController extends Controller
                 'description' => 'required',
                 'price' => 'required',
                 'quantity' => 'required',
-                'categories' => 'required',
+                // 'categories' => 'required',
             ] );
 
             $input = $request->all();
@@ -50,5 +50,13 @@ class StockController extends Controller
         Stock::find($id)->delete();
         return redirect()->back()
             ->with('success', 'stock deleted successfully');
+    }
+
+    public function stockPrice(Request $request)
+    {
+        //  dd($request->all());
+        $stock  =  Stock::where('id',   $request->id)->first();
+
+        return response()->json($stock);
     }
 }

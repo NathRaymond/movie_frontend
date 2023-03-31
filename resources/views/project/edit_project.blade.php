@@ -126,6 +126,8 @@
                                             </thead>
                                             @foreach ($labours as $labour)
                                                 <tbody id="table2_alterations_tbody">
+                                                    <input type="text" name="labour_id[]" value="{{ $labour->id }}"
+                                                        hidden>
                                                     <td class="col-md-1 mt-3">{{ $loop->iteration ?? '' }}</td>
                                                     <td class="col-md-5 mt-3">
                                                         <input type="text" name="labour_name[]" class="form-control"

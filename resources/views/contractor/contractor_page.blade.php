@@ -31,6 +31,8 @@
                                         <th>Name</th>
                                         <th>Phone Number</th>
                                         <th>Email</th>
+                                        <th>Bank</th>
+                                        <th>Account No</th>
                                         <th>Address</th>
                                         <th>sex</th>
                                         <th style="min-width: 100px">Action</th>
@@ -43,6 +45,8 @@
                                             <td>{{ $contractor->name ?? '' }}</td>
                                             <td>{{ $contractor->phone_number ?? '' }}</td>
                                             <td>{{ $contractor->email ?? '' }}</td>
+                                            <td>{{ $contractor->bank ?? '' }}</td>
+                                            <td>{{ $contractor->account_no ?? '' }}</td>
                                             <td>{{ $contractor->address ?? '' }}</td>
                                             <td>{{ $contractor->sex ?? '' }}</td>
                                             <td>
@@ -136,7 +140,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="card-body">
-                        <form method="POST" action="{{ route('store-contractor') }}" onsubmit="$('.preloader').show()" id="createUser">
+                        <form method="POST" action="{{ route('store-contractor') }}" onsubmit="$('.preloader').show()"
+                            id="createUser">
                             @csrf
                             <div class="form-group">
                                 <label class="form-label"> Name:</label>
@@ -145,6 +150,18 @@
                             <div class="form-group">
                                 <label class="form-label">Phone Number:</label>
                                 <input type="number" name="phone_number" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Bank Name:</label>
+                                <select name="bank" class="form-control" required>
+                                    <option selected disabled>Select Bank</option>
+                                    <option value="UBA">UBA</option>
+                                    <option value="GTB">GTB</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Bank Account:</label>
+                                <input type="number" name="account_no" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Email:</label>
@@ -196,6 +213,18 @@
                                 <input type="number" name="phone_number" id="uPhone" class="form-control" required>
                             </div>
                             <div class="form-group">
+                                <label class="form-label">Bank Name:</label>
+                                <select name="bank" id="uBank" class="form-control" required>
+                                    <option selected disabled>Select Bank</option>
+                                    <option value="UBA">UBA</option>
+                                    <option value="GTB">GTB</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Bank Account:</label>
+                                <input type="number" id="uaccountNo" name="account_no" class="form-control" required>
+                            </div>
+                            <div class="form-group">
                                 <label class="form-label">Email:</label>
                                 <input type="email" name="email" id="uEmail" class="form-control" required>
                             </div>
@@ -237,6 +266,8 @@
                     $('#uEmail').val(data.email);
                     $('#uAddress').val(data.address);
                     $('#uSex').val(data.sex);
+                    $('#uBank').val(data.bank);
+                    $('#uaccountNo').val(data.account_no);
                     $('#uId').val(id);
                 })
             });

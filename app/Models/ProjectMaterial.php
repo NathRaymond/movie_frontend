@@ -13,5 +13,6 @@ class ProjectMaterial extends Model
         'material_stock',
         'material_quantity',
         'material_price',
+        'project_id',
     ];
 }

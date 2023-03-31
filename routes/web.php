@@ -56,11 +56,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/delete-project', [App\Http\Controllers\ProjectController::class, 'destroy_project'])->name('delete-project');
         Route::get('/edit_project/{id}', [App\Http\Controllers\ProjectController::class, 'projectDetails'])->name('project-details');
         Route::get('/project_approve', [App\Http\Controllers\ProjectController::class, 'project_app_approve'])->name('project_approve');
+        Route::get('/project_decline', [App\Http\Controllers\ProjectController::class, 'project_app_decline'])->name('project_decline');
     });
     Route::group(['prefix' => 'requisition'], function () {
-        Route::get('/', [App\Http\Controllers\ProjectController::class, 'requisition_index'])->name('requisition_home');
-        Route::get('/get-requisition-pending-order', [App\Http\Controllers\ProjectController::class, 'customerPendingrequisition'])->name('get-requisition-pending-order');
-        Route::get('/get-requisition-by-id', [App\Http\Controllers\ProjectController::class, 'requistionDeliveryById'])->name('get-requisition-by-id');
+        Route::get('/', [App\Http\Controllers\RequisitionController::class, 'requisition_index'])->name('requisition_home');
+        Route::get('/get-requisition-pending-order', [App\Http\Controllers\RequisitionController::class, 'customerPendingrequisition'])->name('get-requisition-pending-order');
+        Route::get('/get-requisition-by-id', [App\Http\Controllers\RequisitionController::class, 'requistionDeliveryById'])->name('get-requisition-by-id');
     });
 });
 

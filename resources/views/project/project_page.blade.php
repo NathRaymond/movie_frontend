@@ -60,14 +60,14 @@
                                                         style="color: green; font-size:14px; background-color:#e5e5e5">Finished</span>
                                                 @endif
                                             </td>
-                                            
+
                                             <td>
                                                 @if ($project->approval_status == 0)
                                                     <span class="badge badge-soft-success"
                                                         style="color: rgb(255, 106, 0); font-size:14px; background-color:#e5e5e5">Pending</span>
                                                 @elseif($project->approval_status == 1)
                                                     <span class="badge badge-soft-info"
-                                                        style="color: green; font-size:14px; background-color:#e5e5e5">Approve</span>
+                                                        style="color: green; font-size:14px; background-color:#e5e5e5">Approved</span>
                                                 @else
                                                     <span class="badge badge-soft-danger"
                                                         style="color: red; font-size:14px; background-color:#e5e5e5">Declined</span>
@@ -75,18 +75,34 @@
                                             </td>
                                             <td>
                                                 <div class="flex align-items-center list-user-action">
-                                                    <button class="btn btn-sm btn-success rounded"
-                                                        data-id="{{ $project->id }}" data-bs-toggle="modal"
-                                                        data-bs-target="" id="approve_btn"><span class="btn-inner">
-                                                            approve
-                                                        </span></button>
-                                                    {{--  call the reject_btn class ID in the javascript below  --}}
-                                                    <button
-                                                        class="btn btn-sm btn-danger rejectConsultant rounded reject_btn"
-                                                        data-id="{{ $project->id }}" data-bs-toggle="modal"
-                                                        data-bs-target="#modal-edit"><span class="btn-inner">
-                                                            decline
-                                                        </span></button>
+                                                    @if ($project->approval_status == 1)
+                                                        <button
+                                                            class="btn btn-sm btn-danger rejectConsultant rounded reject_btn"
+                                                            data-id="{{ $project->id }}" id="decline_btn"
+                                                            data-bs-toggle="modal" data-bs-target="#modal-edit"><span
+                                                                class="btn-inner">
+                                                                decline
+                                                            </span></button>
+                                                    @elseif($project->approval_status == 2)
+                                                        <button class="btn btn-sm btn-success rounded"
+                                                            data-id="{{ $project->id }}" data-bs-toggle="modal"
+                                                            data-bs-target="" id="approve_btn"><span class="btn-inner">
+                                                                approve
+                                                            </span></button>
+                                                    @else
+                                                        <button class="btn btn-sm btn-success rounded"
+                                                            data-id="{{ $project->id }}" data-bs-toggle="modal"
+                                                            data-bs-target="" id="approve_btn"><span class="btn-inner">
+                                                                approve
+                                                            </span></button>
+                                                        <button
+                                                            class="btn btn-sm btn-danger rejectConsultant rounded reject_btn"
+                                                            data-id="{{ $project->id }}" id="decline_btn"
+                                                            data-bs-toggle="modal" data-bs-target="#modal-edit"><span
+                                                                class="btn-inner">
+                                                                decline
+                                                            </span></button>
+                                                    @endif
                                                     <a class="btn btn-sm btn-icon btn-success rounded"
                                                         data-bs-toggle="tooltip" data-placement="top" title=""
                                                         data-bs-original-title="View" href="#">
@@ -170,7 +186,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Add Stock</h5>
+                    <h5 class="modal-title" id="exampleModalLabel1">Add Project</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
@@ -180,7 +196,7 @@
                             id="createStock">
                             @csrf
                             <div class="form-group">
-                                <label class="form-label"> Stock Name:</label>
+                                <label class="form-label"> Material:</label>
                                 <input type="text" name="stock_name" class="form-control" required>
                             </div>
                             <div class="form-group">
@@ -237,7 +253,7 @@
                         //performReset()
                         $("#createStock").submit();
                     } else {
-                        swal("Stock will not be added  :)");
+                        swal("Material will not be added  :)");
                     }
                 } catch (e) {
                     if ('message' in e) {
@@ -262,7 +278,7 @@
             async function resetAccount(el, user_id) {
 
                 const willUpdate = await swal({
-                    title: "Confirm Stock Delete",
+                    title: "Confirm Project Delete",
                     text: `Are you sure you want to delete this record?`,
                     icon: "warning",
                     confirmButtonColor: "#DD6B55",
@@ -273,7 +289,7 @@
                 if (willUpdate) {
                     performDelete(el, user_id);
                 } else {
-                    swal("Stock will not be deleted  :)");
+                    swal("Project will not be deleted  :)");
                 }
             }
 
@@ -284,7 +300,7 @@
                             console.log(status);
                             console.table(data);
                             if (status === "success") {
-                                let alert = swal("Stock deleted successfully.");
+                                let alert = swal("Project deleted successfully.");
                                 $(el).closest("tr").remove();
 
                             }
@@ -295,7 +311,7 @@
                 }
             }
 
-            /* When click delete button */
+            /* When click approve button */
             $('body').on('click', '#approve_btn', function() {
                 var id = $(this).data('id');
                 console.log(id)
@@ -307,7 +323,7 @@
 
             async function resetAccount(el, id) {
                 const willUpdate = await swal({
-                    title: "Confirm Consultant Applicant Approval",
+                    title: "Confirm Project Approval",
                     text: `Are you sure you want to validate this request?`,
                     icon: "warning",
                     confirmButtonColor: "#DD6B55",
@@ -319,7 +335,7 @@
                     //performReset()
                     performDelete(el, id);
                 } else {
-                    swal("Request not validated :)");
+                    swal("Project not validated :)");
                 }
             }
 
@@ -331,7 +347,7 @@
                             console.log(status);
                             console.table(data);
                             if (status === "success") {
-                                let alert = swal("Request validated successfully!.");
+                                let alert = swal("Project approved successfully!.");
                                 window.location.reload();
                                 $(el).closest("tr").remove();
                             }
@@ -341,6 +357,66 @@
                     let alert = swal(e.message);
                 }
             }
+
+
+        })
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            var preLoader = $(".preloader")
+
+            $('body').on('click', '#decline_btn', function() {
+                var id = $(this).data('id');
+                console.log(id)
+                var token = $("meta[name='csrf-token']").attr("content");
+                var el = this;
+                // alert(user_id);
+                resetAccount(el, id);
+            });
+
+            async function resetAccount(el, id) {
+                const willUpdate = await swal({
+                    title: "Confirm Requisition decline",
+                    text: `Are you sure you want to decline this request?`,
+                    icon: "warning",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes!",
+                    showCancelButton: true,
+                    buttons: ["Cancel", "Yes, decline"]
+                });
+                if (willUpdate) {
+                    //performReset()
+                    performDelete(el, id);
+                } else {
+                    swal("Request not approved :)");
+                }
+            }
+
+            function performDelete(el, id) {
+                //alert(user_id);
+                try {
+                    $.get('{{ route('project_decline') }}?id=' + id,
+                        function(data, status) {
+                            console.log(status);
+                            console.table(data);
+                            if (status === "success") {
+                                let alert = swal("Request declined successfully!.");
+                                window.location.reload();
+                                $(el).closest("tr").remove();
+                            }
+                        }
+                    );
+                } catch (e) {
+                    let alert = swal(e.message);
+                }
+            }
+
         })
     </script>
 @endsection

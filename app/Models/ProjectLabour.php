@@ -12,5 +12,6 @@ class ProjectLabour extends Model
     protected $fillable = [
         'labour_name',
         'labour_amount',
+        'project_id',
     ];
 }

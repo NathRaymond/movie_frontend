@@ -34,8 +34,8 @@ class ProjectController extends Controller
     public function store_project(Request $request)
     {
         $input = $request->except('_token');
-
         try {
+            DB::beginTransaction();
             $orders = Project::select('project_name', 'project_description', 'id')->distinct()->get();
             $count = count($orders);
             $figure = $count + 1;
@@ -78,6 +78,7 @@ class ProjectController extends Controller
                 $project_material->material_quantity = $input['material_quantity'][$key];
                 $project_material->material_price = $input['material_price'][$key];
                 $project_material->project_code = $uuid;
+                $project_material->project_id = $project->id;
                 $project_material->save();
             }
 
@@ -88,9 +89,10 @@ class ProjectController extends Controller
                 $project_labour->labour_name = $input['labour_name'][$labour_key];
                 $project_labour->labour_amount = $input['labour_amount'][$labour_key];
                 $project_labour->project_code = $uuid;
+                $project_labour->project_id = $project->id;
                 $project_labour->save();
             }
-
+            DB::commit();
             return redirect()->back()->with('success', 'project created successfully');
         } catch (\Exception $exception) {
             DB::rollBack();
@@ -107,8 +109,9 @@ class ProjectController extends Controller
     public function update_project(Request $request)
     {
         $input = $request->all();
+        $id = $request->id;
         try {
-            $project = $projectId = Project::find($request->id);
+            $project = Project::find($request->id);
             if ($project) {
                 $this->validate($request, [
                     'project_name' => 'required',
@@ -122,30 +125,47 @@ class ProjectController extends Controller
                 $project->fill($input)->save();
             }
 
-            $material = ProjectMaterial::where('project_code', $projectId->project_code)->first();
-            $material = $input['labour_name'];
-            foreach ($material as $key => $material) {
-                if ($material) {
-                    $this->validate($request, [
-                        'material_stock' => 'required',
-                        'material_quantity' => 'required',
-                        'material_price' => 'required',
-                    ]);
-                    $material->fill($input)->save();
+
+            $materials = $request->input('material_stock');
+            $code = $project->project_code;
+            ProjectMaterial::where('project_code', $code)->delete();
+            foreach ($materials as $key => $row) {
+                $check =  ProjectMaterial::where('project_code', $code)->where('material_stock', $row)->first();
+                if($check){
+                    $material = ProjectMaterial::where('project_code', $code)->where('material_stock', $row)
+                    ->update(['material_quantity' => $input['material_quantity'][$key], 'material_price' =>  $input['material_price'][$key]]);
+                }else{
+                    $project_material = new ProjectMaterial;
+                    $project_material->user_id = Auth::user()->id;
+                    $project_material->material_stock = $row;
+                    $project_material->material_quantity = $input['material_quantity'][$key];
+                    $project_material->material_price = $input['material_price'][$key];
+                    $project_material->project_code = $code;
+                    $project_material->save();
+                }
+
+            }
+            $labours = $request->input('labour_name');
+            ProjectLabour::where('project_code', $code)->delete();
+            foreach ($labours as $key => $labour_row) {
+                $labour = ProjectLabour::where('project_code', $code)->where('id', $input['labour_id'][$key])->first();
+                if($labour){
+                    $labour->update(['labour_name' => $input['labour_name'][$key], 'labour_amount' => $input['labour_amount'][$key]]);
+                }else{
+                    $project_labour = new ProjectLabour;
+                    $project_labour->user_id = Auth::user()->id;
+                    $project_labour->labour_name = $input['labour_name'][$key];
+                    $project_labour->labour_amount = $input['labour_amount'][$key];
+                    $project_labour->project_code = $code;
+                    $project_labour->save();
                 }
             }
 
-            $labour = ProjectLabour::where('project_code', $projectId->project_code)->first();
-            if ($labour) {
-                $this->validate($request, [
-                    'labour_name' => 'required',
-                    'labour_amount' => 'required',
-                ]);
-                $labour->fill($input)->save();
-            }
+
             return redirect()->back()->with('message', 'project updated successfully');
         } catch (\Exception $exception) {
             DB::rollBack();
+            dd($exception->getMessage());
             return redirect()->back()->withErrors($exception->getMessage());
         }
     }
@@ -169,38 +189,18 @@ class ProjectController extends Controller
         return view('project.edit_project', $data);
     }
 
-    public function requisition_index(Request $request)
+    public function project_app_decline(Request $request)
     {
-        $data['contractors'] = Project::all();
-        $data['stocks'] = Stock::all();
-        return view('requisition.requisition', $data);
+        $updateProject = Project::where('id', $request->id)->update([
+            'approval_status' => 2,
+        ]);
+        return api_request_response(
+            'ok',
+            'Request decline successfully ',
+            success_status_code(),
+            $updateProject
+        );
     }
-
-    public function customerPendingrequisition(Request $request)
-    {
-        $pp['data']  = Project::where('id', $request->id)->where('approval_status', 1)->select('project_code')->distinct()->get();
-        return json_encode($pp);
-    }
-
-    public function requistionDeliveryById(Request $request)
-    {
-        try {
-            $value = Project::all();
-            return api_request_response(
-                "ok",
-                "Search Complete!",
-                success_status_code(),
-                [$value]
-            );
-        } catch (\Exception $exception) {
-            return api_request_response(
-                'error',
-                $exception->getMessage(),
-                bad_response_status_code()
-            );
-        }
-    }
-
     public function project_app_approve(Request $request)
     {
         $updateProject = Project::where('id', $request->id)->update([

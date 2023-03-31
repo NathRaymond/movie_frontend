@@ -14,44 +14,48 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <div class="header-title">
-                            <h4 class="card-title">Add Project</h4>
+                            <h4 class="card-title">Edit Project</h4>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('store-project') }}" onsubmit="$('.preloader').show()"
-                            id="createStock">
+                        <form method="POST" action="{{ route('updateproject') }}" onsubmit="$('.preloader').show()">
                             @csrf
+                            <input type="hidden" id="" name="id" value="{{ $project->id }}">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Project Name</label>
-                                    <input type="text" name="project_name" class="form-control" required>
+                                    <label class="form-label">Name</label>
+                                    <input type="text" name="project_name" value="{{ $project->project_name ?? '' }}"
+                                        class="form-control" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Description</label>
-                                    <textarea class="form-control" name="project_description" required></textarea>
+                                    <textarea class="form-control" name="project_description" value="{{ $project->project_description ?? '' }}" required>{{ $project->project_description ?? '' }}</textarea>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="validationCustomUsername" class="form-label">Start Date</label>
                                     <div class="form-group input-group">
-                                        <input type="date" name="project_start_date" class="form-control" required>
+                                        <input type="date" name="project_start_date"
+                                            value="{{ $project->project_start_date ?? '' }}" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">End Date</label>
-                                    <input type="date" name="project_end_date" class="form-control" required>
+                                    <input type="date" name="project_end_date"
+                                        value="{{ $project->project_end_date ?? '' }}"class="form-control" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Contractor</label>
-                                    <select class="form-control js-example-basic-single" name="project_contractor">
+                                    <select name="project_contractor" class="form-control" required>
                                         @foreach ($contractors as $contractor)
-                                            <option value="{{ $contractor->id }}">{{ $contractor->name }}</option>
+                                            <option value="{{ $project->project_contractor ?? '' }}">{{ $contractor->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             <hr class="hr-horizontal">
                             <div class="header-title">
-                                <h4 class="card-title">Add Materials</h4>
+                                <h4 class="card-title">Edit Materials</h4>
                             </div>
                             <div class="invoice-to-wrap pb-20">
                                 <div class="row">
@@ -61,22 +65,52 @@
                                                 <tr>
                                                     <th style="width: 50px;text-align: center;">S/N</th>
                                                     <th style="width: 230px;text-align: center;">Material</th>
-                                                    <th style="width: 110px;text-align: center;">Quantity</th>
                                                     <th style="width: 110px;text-align: center;">Price</th>
-                                                    <th style="width: 110px;text-align: center;">Amount</th>
+                                                    <th style="width: 110px;text-align: center;">Quantity</th>
                                                     <th style="width: 64px;"><button type="button"
                                                             class="btn btn-primary btn-add-row">Add</button></th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="table_alterations_tbody">
-                                            </tbody>
+                                            @foreach ($materials as $material)
+                                                <tbody id="table_alterations_tbody">
+                                                    <td class="col-md-1 mt-3">{{ $loop->iteration ?? '' }}</td>
+                                                    <td class="col-md-4 mt-3">
+                                                        <select class="form-select stock" name="material_stock[]"
+                                                            aria-label="select example"
+                                                            onchange="handleSelectedStock('${randomId}')" required>
+                                                            <option value="">Select Material</option>
+                                                            @foreach ($stocks as $stock)
+                                                                <option value="{{ $stock->id }}"
+                                                                    {{ $stock->id == $material->material_stock ? 'selected' : '' }}
+                                                                    required>
+                                                                    {{ $stock->description ?? '' }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td class="col-md-4 mt-3">
+                                                        <input type="number" name="material_price[]"
+                                                            id="unit_price-${randomId}"
+                                                            value="{{ $material->material_price ?? '' }}"
+                                                            class="form-control pricelist"
+                                                            onkeyup="calculateTotalAmountForRows()" required>
+                                                    </td>
+                                                    <td class="col-md-4 mt-3">
+                                                        <input type="number" name="material_quantity[]"
+                                                            id="unit-${randomId}"
+                                                            value="{{ $material->material_quantity ?? '' }}"
+                                                            class="form-control" required>
+                                                    </td>
+                                                    <td><button type="button" class="btn btn-danger"
+                                                            id="comments_remove">remove</button></td>
+                                                </tbody>
+                                            @endforeach
                                         </table>
                                     </div>
                                 </div>
                             </div>
                             <hr class="hr-horizontal">
                             <div class="header-title">
-                                <h4 class="card-title">Add Labour</h4>
+                                <h4 class="card-title">Edit Labour</h4>
                             </div>
 
                             <div class="invoice-to-wrap pb-20">
@@ -92,8 +126,25 @@
                                                             class="btn btn-primary btn-add-row2">Add</button></th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="table2_alterations_tbody">
-                                            </tbody>
+                                            @foreach ($labours as $labour)
+                                                <tbody id="table2_alterations_tbody">
+                                                    <input type="text" name="labour_id[]" value="{{ $labour->id }}"
+                                                        hidden>
+                                                    <td class="col-md-1 mt-3">{{ $loop->iteration ?? '' }}</td>
+                                                    <td class="col-md-5 mt-3">
+                                                        <input type="text" name="labour_name[]" class="form-control"
+                                                            value="{{ $labour->labour_name ?? '' }}" required>
+                                                    </td>
+                                                    <td class="col-md-5 mt-3">
+                                                        <input type="number" name="labour_amount[]"
+                                                            value="{{ $labour->labour_amount ?? '' }}"
+                                                            class="form-control pricelist"
+                                                            onkeyup="calculateTotalAmountForRows()" required>
+                                                    </td>
+                                                    <td><button type="button" class="btn btn-danger"
+                                                            id="comments_remove2">remove</button></td>
+                                                </tbody>
+                                            @endforeach
                                         </table>
                                     </div>
                                 </div>
@@ -111,7 +162,8 @@
                                             :</label>
                                         <div class="col-sm-4">
                                             <input type="text" readonly style="text-align: right;" required
-                                                class="form-control" id="total_sum" name="project_estimate">
+                                                class="form-control" id="total_sum" name="project_estimate"
+                                                value="{{ $project->project_estimate }}">
                                         </div>
                                     </div>
 
@@ -133,11 +185,25 @@
 @section('scripts')
     <script src="{{ asset('js\requestController.js') }}"></script>
     <script src="{{ asset('js\formController.js') }}"></script>
-    <script type="text/javascript">
+
+    <script>
         $(document).ready(function() {
-            $(".js-example-basic-single").select2();
+            $('body').on('click', '#edit-project', function() {
+                // alert("Nathaniel")
+                var id = $(this).data('id');
+                $.get('{{ route('getstock') }}?id=' + id, function(data) {
+                    // console.log(data[2]);
+                    $('#uStockname').val(data.stock_name);
+                    $('#uDescription').val(data.description);
+                    $('#uPrice').val(data.price);
+                    $('#uQuantity').val(data.quantity);
+                    $('#uCategories').val(data.categories);
+                    $('#uId').val(id);
+                })
+            });
         });
     </script>
+
     <script>
         $(document).ready(function() {
             $.ajaxSetup({
@@ -162,7 +228,7 @@
                         //performReset()
                         $("#createStock").submit();
                     } else {
-                        swal("Material will not be added  :)");
+                        swal("Project will not be added  :)");
                     }
                 } catch (e) {
                     if ('message' in e) {
@@ -240,25 +306,22 @@
                 var rowsLength = document.getElementById(table_id).getElementsByTagName("tbody")[0]
                     .getElementsByTagName("tr").length + 1;
                 return `<td>${rowsLength}</td>
-                <td class="col-md-3 mt-3">
-                    <select class="form-control js-example-basic-single stock" id="select2-${randomId}"  aria-label="select example" name="material_stock[]" onchange="handleSelectedStock('${randomId}')" required>
-                        <option value="">Select Materials</option>
-                        @foreach ($stocks as $stock)
-                        <option value="{{ $stock->id }}" required >{{ $stock->description }}</option>
-                        @endforeach
-                      </select>
-                </td>
-                <td class="col-md-3 mt-3">
-                    <input type="number" name="material_quantity[]" id="unit-${randomId}" on class="form-control unit" onkeyup="recalculate()" onchange="recalculate()" required>
-                </td>
-                <td class="col-md-3 mt-3">
-                    <input type="number" name="material_price[]" id="unit_price-${randomId}" class="form-control pricelist" onkeyup="calculateTotalAmountForRows()" required>
-                </td>
-                <td class="col-md-3 mt-3">
-                <input type="text" readonly style="text-align: right;" class="form-control" id="total_amount_sum" name="project_estimate" required>
-            </td>
-                <td style="height:30px;display:none"><input style="text-align: right; height:30px;" id="amount-${randomId}" type="text" readonly name="total_amount[]" class="form-control input" value=""></td>
-                <td><button type="button" class="btn btn-danger" id="comments_remove">remove</button></td>`
+        <td class="col-md-4 mt-3">
+            <select class="form-select stock" id="select2-${randomId}" name="material_stock[]" aria-label="select example" onchange="handleSelectedStock('${randomId}')" required>
+                <option value="">Select Stock</option>
+                @foreach ($stocks as $stock)
+                <option value="{{ $stock->id }}" required >{{ $stock->description }}</option>
+                @endforeach
+            </select>
+        </td>
+        <td class="col-md-4 mt-3">
+            <input type="number" name="material_price[]" id="unit_price-${randomId}" class="form-control pricelist" onkeyup="calculateTotalAmountForRows()" required>
+        </td>
+        <td class="col-md-4 mt-3">
+            <input type="number" name="material_quantity[]" id="unit-${randomId}" class="form-control" required>
+        </td>
+        <td style="height:30px;display:none"><input style="text-align: right; height:30px;" id="amount-${randomId}" type="text" readonly name="total_amount[]" class="form-control input" value=""></td>
+        <td><button type="button" class="btn btn-danger" id="comments_remove">remove</button></td>`
             }
         });
 
@@ -302,62 +365,30 @@
                 const randomId = makeid(5);
                 var rowsLength = document.getElementById(table_id).getElementsByTagName("tbody")[0]
                     .getElementsByTagName("tr").length + 1;
-                return `<td>${rowsLength}</td>
-                <td class="col-md-5 mt-3">
-                    <input type="text" name="labour_name[]" class="form-control" required>
-                </td>
-                <td class="col-md-5 mt-3">
-                    <input type="number" name="labour_amount[]" class="form-control amountlist" onkeyup="calculateTotalAmountForRows()" required>
-                </td>
-                <td style="height:30px;display:none"><input style="text-align: right; height:30px;" id="amount-${randomId}" type="text" readonly name="total_amount[]" class="form-control input" value=""></td>
-                <td><button type="button" class="btn btn-danger" id="comments_remove2">remove</button></td>`
+                return `<input type="text" name="labour_id[]" value="" hidden>
+                <td>${rowsLength}</td>
+        <td class="col-md-5 mt-3">
+            <input type="text" name="labour_name[]" class="form-control" required>
+        </td>
+        <td class="col-md-5 mt-3">
+            <input type="number" name="labour_amount[]" class="form-control pricelist" onkeyup="calculateTotalAmountForRows()" required>
+        </td>
+        <td style="height:30px;display:none"><input style="text-align: right; height:30px;" id="amount-${randomId}" type="text" readonly name="total_amount[]" class="form-control input" value=""></td>
+        <td><button type="button" class="btn btn-danger" id="comments_remove2">remove</button></td>`
             }
         });
 
         function calculateTotalAmountForRows() {
             let totalSum = 0;
             $('.pricelist').each(function() {
-                //get the nearect unit
-                var NUnit = $(this).closest('tr').find('.unit').val();
-                if (NUnit == "") {
-                    //new swal("Please input unit");
-                    return 0
-                }
-                const $value = $(this).val();
-                //alert(NUnit);
-                var val = !$value ? 0 : $value;
-
-                if (!isNaN(val)) {
-
-                    subtotal = parseFloat(val) * parseFloat(NUnit);
-
-                    totalSum = totalSum + subtotal;
-                }
-            });
-
-            totalAmount = 0;
-
-            $('.amountlist').each(function() {
                 const $value = $(this).val();
                 var val = !$value ? 0 : $value;
                 if (!isNaN(val)) {
-                    newval = parseFloat(val);
-                    totalAmount = totalAmount + newval;
+                    totalSum = totalSum + parseFloat(val);
                 }
             });
-
-
-
-            $("#total_sum").val(totalSum + totalAmount);
-            $("#total_amount_sum").val(totalSum + totalAmount);
-
-
+            $("#total_sum").val(totalSum);
         }
-
-        function recalculate() {
-            return calculateTotalAmountForRows();
-        }
-
 
         function calculateTotalDiscountForRows() {
             var totalUnit = 0;

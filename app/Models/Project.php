@@ -18,4 +18,9 @@ class Project extends Model
         'project_estimate'
 
     ];
+
+
+    public function contractorName(){
+        return $this->belongsTo('App\Models\Contractor', 'project_contractor');
+    }
 }

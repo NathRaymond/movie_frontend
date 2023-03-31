@@ -3,21 +3,21 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('contents')
-<div class="preloader" style="display: none">
-    <div class="spinner-grow text-info m-1" role="status">
-        <span class="sr-only">Loading...</span>
+    <div class="preloader" style="display: none">
+        <div class="spinner-grow text-info m-1" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
-</div>
     <div>
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <div class="header-title">
-                            <h4 class="card-title">Requsition List</h4>
+                            <h4 class="card-title">Requsition</h4>
                         </div>
                         <div class="d-flex justify-content-between align-items-center rounded flex-wrap gap-3">
-                            {{Auth::user()->name}} > Requsition
+                            {{ Auth::user()->name }} > Requsition
                         </div>
                     </div>
                     <div class="card-body">
@@ -34,7 +34,8 @@
                                                     <option value="">Choose Contractor</option>
                                                     @foreach ($contractors as $contractor)
                                                         <option value="{{ $contractor->id }}">
-                                                            {{ $contractor->contractorName->name ?? $contractor->project_contractor }}</option>
+                                                            {{ $contractor->contractorName->name ?? $contractor->project_contractor }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -60,22 +61,31 @@
                                                 @csrf
                                                 <div class="col-xl-12">
                                                     <section class="hk-sec-wrapper hk-invoice-wrap pa-35">
+                                                        <hr class="hr-horizontal">
+                                                        <div class="header-title">
+                                                            <h4 class="card-title">Material</h4>
+                                                        </div>
                                                         <div class="invoice-to-wrap pb-20">
                                                             <div class="row">
                                                                 <div class="table-responsive">
                                                                     <table id=""
                                                                         class="table  table-bordered table-review review-table mb-0"
                                                                         id="table_alterations">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Project Name </th>
-                                                                                <th>Project Description</th>
-                                                                                <th>Project Start Date</th>
-                                                                                <th>Project End Date</th>
-                                                                                <th>Project Contractor</th>
-                                                                                <th>Project Estimate</th>
-                                                                            </tr>
-                                                                        </thead>
+                                                                        <tr>
+                                                                            {{--  <th style="width: 50px;text-align: center;">S/N</th>  --}}
+                                                                            <th style="width: 230px;text-align: center;">
+                                                                                Stock</th>
+                                                                            <th style="width: 110px;text-align: center;">
+                                                                                Price</th>
+                                                                            <th style="width: 110px;text-align: center;">
+                                                                                Quantity</th>
+                                                                            <th style="width: 110px;text-align: center;">
+                                                                                Supplied Price</th>
+                                                                            <th style="width: 110px;text-align: center;">
+                                                                                Supplied Quantity</th>
+                                                                            <th style="width: 110px;text-align: center;">
+                                                                                Amount</th>
+                                                                        </tr>
                                                                         <tbody id="table_alterations_tbody">
 
                                                                         </tbody>
@@ -83,7 +93,32 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!-- <h5>Items</h5> -->
+                                                        <hr class="hr-horizontal">
+                                                        <div class="header-title">
+                                                            <h4 class="card-title">Labour</h4>
+                                                        </div>
+                                                        <div class="invoice-to-wrap pb-20">
+                                                            <div class="row">
+                                                                <div class="table-responsive">
+                                                                    <table id=""
+                                                                        class="table  table-bordered table-review review-table mb-0"
+                                                                        id="table_alterations">
+                                                                        <tr>
+                                                                            <th style="width: 230px; text-align: center;">
+                                                                                Name</th>
+                                                                            <th style="width: 230px; text-align: center;">
+                                                                                Amount</th>
+                                                                            {{--  <th style="width: 64px;"><button type="button"
+                                                                                    class="btn btn-primary btn-add-row2">Add</button>
+                                                                            </th>  --}}
+                                                                        </tr>
+                                                                        <tbody id="table_alterations_tbody2">
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <hr>
                                                         <div class="row">
                                                             <div class="col-sm">
@@ -218,11 +253,12 @@
                             "&contractorid=" +
                             contractorid);
                         loader.hide();
-                         console.log(getApplications);
+                        console.log(getApplications);
                         const randomId = makeid(5);
                         var len = 0;
                         len = getApplications['data'][0].length;
                         const tbodyEl = $('#table_alterations_tbody');
+                        const tbodyEl2 = $('#table_alterations_tbody2');
                         tbodyEl.empty()
                         if (len == 0) {
                             swal("No Record Found !");
@@ -232,22 +268,31 @@
                                 tbodyEl.append(
                                     `<tr>
                                       <input type="hidden" name="id[]" value="${records.id}">
-                                    <td class="col-md-4 mt-3">
-                                        <select class="form-select stock" id="select2-${randomId}" name="material_stock[]" aria-label="select example" onchange="handleSelectedStock('${randomId}')" required>
-                                            <option value="">Select Stock</option>
-                                            @foreach ($stocks as $stock)
-                                            <option value="{{ $stock->id }}" required >{{ $stock->description }}</option>
-                                            @endforeach
-                                        </select>
+                                      <td class="col-md-2 mt-3">${records.description}</td>
+                                    <td class="col-md-2 mt-3">${records.material_price}</td>
+                                    <td class="col-md-2 mt-3">${records.material_quantity}</td>
+                                    <td class="col-md-2 mt-3">
+                                        <input type="number" name="supplied_price[]" id="unit-${randomId}" class="form-control" required>
                                     </td>
-                                    <td class="col-md-4 mt-3">
-                                        <input type="number" name="material_price[]" id="unit_price-${randomId}" class="form-control pricelist" onkeyup="calculateTotalAmountForRows()" required>
+                                    <td class="col-md-2 mt-3">
+                                        <input type="number" name="supplied_quantity[]" id="unit-${randomId}" class="form-control" required>
                                     </td>
-                                    <td class="col-md-4 mt-3">
-                                        <input type="number" name="material_quantity[]" id="unit-${randomId}" class="form-control" required>
+                                    <td class="col-md-2 mt-3">
+                                        <input type="number" name="supplied_amount[]" id="unit-${randomId}" class="form-control" required>
                                     </td>
                                     <td style="height:30px;display:none"><input style="text-align: right; height:30px;" id="amount-${randomId}" type="text" readonly name="total_amount[]" class="form-control input" value=""></td>
-                                    <td><button type="button" class="btn btn-danger" id="comments_remove">remove</button></td>
+                                </tr>`
+                                );
+                                tbodyEl2.append(
+                                    `<tr>
+                                      <input type="hidden" name="id[]" value="${records.id}">
+                                      <td class="col-md-5 mt-3">${records.description}
+                                        <input type="text" name="[]" class="form-control" required>
+                                    </td>
+                                    <td class="col-md-5 mt-3">
+                                        <input type="number" name="labour_amount[]" class="form-control pricelist" onkeyup="calculateTotalAmountForRows()" required>
+                                    </td>
+                                    <td style="height:30px;display:none"><input style="text-align: right; height:30px;" id="amount-${randomId}" type="text" readonly name="total_amount[]" class="form-control input" value=""></td>
                                 </tr>`
                                 );
                             });

@@ -27,6 +27,13 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
+    'dbhost' => env('DB_HOST', ''),
+
+    // mysql
+    // mysql
+    'db' => env('DB_DATABASE', ''),
+    'dbuser' => env('DB_USERNAME', ''),
+    'dbpass' => env('DB_PASSWORD', ''),
 
     /*
     |--------------------------------------------------------------------------

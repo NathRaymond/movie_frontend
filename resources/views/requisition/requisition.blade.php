@@ -108,9 +108,8 @@
                                                                                 Name</th>
                                                                             <th style="width: 230px; text-align: center;">
                                                                                 Amount</th>
-                                                                            {{--  <th style="width: 64px;"><button type="button"
-                                                                                    class="btn btn-primary btn-add-row2">Add</button>
-                                                                            </th>  --}}
+                                                                                <th style="width: 110px;text-align: center;">
+                                                                                    Supplied Amount</th>
                                                                         </tr>
                                                                         <tbody id="table_alterations_tbody2">
 
@@ -286,11 +285,12 @@
                                 tbodyEl2.append(
                                     `<tr>
                                       <input type="hidden" name="id[]" value="${records.id}">
-                                      <td class="col-md-5 mt-3">${records.description}
-                                        <input type="text" name="[]" class="form-control" required>
+                                      <td class="col-md-4 mt-3">${records.labour_name}
                                     </td>
-                                    <td class="col-md-5 mt-3">
-                                        <input type="number" name="labour_amount[]" class="form-control pricelist" onkeyup="calculateTotalAmountForRows()" required>
+                                    <td class="col-md-4 mt-3">${records.labour_amount}
+                                    </td>
+                                    <td class="col-md-4 mt-3">
+                                        <input type="number" name="supplied_labour_amount[]" id="unit-${randomId}" class="form-control" required>
                                     </td>
                                     <td style="height:30px;display:none"><input style="text-align: right; height:30px;" id="amount-${randomId}" type="text" readonly name="total_amount[]" class="form-control input" value=""></td>
                                 </tr>`

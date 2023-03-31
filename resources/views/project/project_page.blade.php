@@ -44,8 +44,8 @@
                                             <td>{{ $loop->iteration ?? '' }}</td>
                                             <td>{{ $project->project_name ?? '' }}</td>
                                             <td>{{ $project->project_description ?? '' }}</td>
-                                            <td>{{ $project->project_contractor ?? '' }}</td>
-                                            <td>{{ $project->project_estimate ?? '' }}</td>
+                                            <td>{{ $project->contractorName->name ?? $project->project_contractor }}</td>
+                                            <td><text style="float:right">{{ number_format($project->project_estimate, 3) ?? '' }}</text></td>
                                             <td>{{ $project->project_start_date ?? '' }}</td>
                                             <td>{{ $project->project_end_date ?? '' }}</td>
                                             <td>

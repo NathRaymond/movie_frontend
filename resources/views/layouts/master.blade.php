@@ -64,6 +64,10 @@
             .text-right {
                 text-align: right;
             }
+
+            .shepherd-modal-overlay-container.shepherd-modal-is-visible path {
+                pointer-events: none !important;
+            }
         </style>
     @yield('headlinks')
 </head>

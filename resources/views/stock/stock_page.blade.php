@@ -42,9 +42,8 @@
                                             <td>{{ $loop->iteration ?? '' }}</td>
                                             <td>{{ $stock->stock_name ?? '' }}</td>
                                             <td>{{ $stock->description ?? '' }}</td>
-                                            <td>&#8358;{{ $stock->price ?? '' }}</td>
+                                            <td><text style="float:right">{{ number_format($stock->price,3) ?? '' }}</text></td>
                                             <td>{{ $stock->quantity ?? '' }}</td>
-                                            {{--  <td>{{ $stock->categories ?? '' }}</td>  --}}
                                             <td>
                                                 <div class="flex align-items-center list-user-action">
                                                     <a class="btn btn-sm btn-icon btn-success rounded"

@@ -641,53 +641,6 @@
                 )
             @endif
         </script>
-
-        {{--  <script>
-            $(function() {
-
-                $('.btn-add-rows').click(function() {
-
-                    var sInputGroupPhoneHtml = (` <div class="row">
-                        <div class="col-md-4 mb-5">
-                            <label class="form-label">Stock</label>
-                            <select class="form-select" aria-label="select example" name="material_stock[]" required>
-                                <option value="">Select Stock</option>
-                                <option value="1">One</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Quantity</label>
-                            <select class="form-select" name="material_quantity[]" aria-label="select example" required>
-                                <option value="">Select Quantity</option>
-                                <option value="1">One</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Price</label>
-                            <select class="form-select" name="material_price[]" aria-label="select example" required>
-                                <option value="">Select Price</option>
-                                <option value="1">One</option>
-                            </select>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-group mt-30">
-                                <label class="form-label">Del *</label>
-                                <button type="button"
-                                    class="btn btn-danger btn-md"data-repeater-delete="">Del</button>
-                            </div>
-                        </div>
-
-                                        </div>`);
-                    $('#myElementIDs').append(sInputGroupPhoneHtml);
-                });
-
-                $('#myElementIDs').on('click', '.input-group-phone-removes', function() {
-
-                    $(this).closest('.form-group').remove();
-                });
-
-            });
-        </script>  --}}
         @yield('scripts')
 
 </body>

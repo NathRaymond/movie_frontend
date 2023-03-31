@@ -3,21 +3,21 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('contents')
-    <div class="preloader" style="display: none">
-        <div class="spinner-grow text-info m-1" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
+<div class="preloader" style="display: none">
+    <div class="spinner-grow text-info m-1" role="status">
+        <span class="sr-only">Loading...</span>
     </div>
+</div>
     <div>
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <div class="header-title">
-                            <h4 class="card-title">Make Requsition </h4>
+                            <h4 class="card-title">Requsition List</h4>
                         </div>
                         <div class="d-flex justify-content-between align-items-center rounded flex-wrap gap-3">
-                            {{ Auth::user()->name }} > Requsition
+                            {{Auth::user()->name}} > Requsition
                         </div>
                     </div>
                     <div class="card-body">
@@ -34,8 +34,7 @@
                                                     <option value="">Choose Contractor</option>
                                                     @foreach ($contractors as $contractor)
                                                         <option value="{{ $contractor->id }}">
-                                                            {{ $contractor->contractorName->name ?? $contractor->project_contractor }}
-                                                        </option>
+                                                            {{ $contractor->contractorName->name ?? $contractor->project_contractor }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -56,7 +55,7 @@
                                             </div>
                                         </div>
                                         <hr>
-                                        <div class="card-body" style="display: none">
+                                        <div class="card-body">
                                             <form id="frm_main" method="post" onsubmit="signUp(event)">
                                                 @csrf
                                                 <div class="col-xl-12">
@@ -219,7 +218,7 @@
                             "&contractorid=" +
                             contractorid);
                         loader.hide();
-                        console.log(getApplications);
+                         console.log(getApplications);
                         const randomId = makeid(5);
                         var len = 0;
                         len = getApplications['data'][0].length;

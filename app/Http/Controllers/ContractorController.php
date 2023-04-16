@@ -16,7 +16,7 @@ class ContractorController extends Controller
 
     public function download()
     {
-        
+
         try {
 
             $database = config('app.db');
@@ -35,13 +35,13 @@ class ContractorController extends Controller
 
             // echo "<h3>Backing up database to `<code>{$dir}</code>`</h3>";
             // mysqldump -u [user name] –p [password] [options] [database_name] [tablename] > [dumpfilename.sql]
-            // --add-drop-database --databases 
+            // --add-drop-database --databases
             // mysqldump --user=root --password=bismib_fashion@_mysql --host=localhost --events --routines --triggers elaravel_v2 --result-file=db_backup_new.sql 2>&1
             exec("mysqldump  --user={$user} --password={$pass} --host={$host} --events --routines --triggers  {$database}  --result-file={$dir} 2>&1", $output);
 
             $tableViewsCounts = DB::select('SELECT count(TABLE_NAME) AS TOTALNUMBEROFTABLES FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ?', [$database]);
             $tableViewsCounts = $tableViewsCounts[0]->TOTALNUMBEROFTABLES;
-            
+
             $viewsCounts = DB::select('SELECT count(TABLE_NAME) AS TOTALNUMBEROFVIEWS FROM INFORMATION_SCHEMA.TABLES WHERE  TABLE_TYPE LIKE "VIEW" AND TABLE_SCHEMA = ?', [$database]);
             $viewsCounts = $viewsCounts[0]->TOTALNUMBEROFVIEWS;
 
@@ -74,8 +74,8 @@ class ContractorController extends Controller
                             'SET time_zone = "+06:00";'.PHP_EOL.
                             'drop database if exists '.$database.';'. PHP_EOL.
                             'CREATE DATABASE IF NOT EXISTS '.$database.' DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'. PHP_EOL.
-                            'use '.$database.';'.PHP_EOL; 
-                
+                            'use '.$database.';'.PHP_EOL;
+
             $data = file_get_contents($dir);
 
             $append_command = PHP_EOL.'SET FOREIGN_KEY_CHECKS=1;'.PHP_EOL.'COMMIT;'.PHP_EOL;
@@ -84,7 +84,7 @@ class ContractorController extends Controller
 
             return response()->download($dir);
         } catch (\Exception $exception) {
-            dd($exception->getMessage());
+            // dd($exception->getMessage());
         }
     }
     public function download1(){

@@ -6,7 +6,7 @@
         "storeKey": "quisetting-html",
         "setting": {
             "app_name": {
-                "value": "QSAS"
+                "value": "Crud"
             },
             "theme_scheme_direction": {
                 "value": "ltr"

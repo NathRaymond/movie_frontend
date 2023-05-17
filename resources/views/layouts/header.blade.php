@@ -25,7 +25,7 @@
             </div>
         </div>
         <!--logo End-->
-        <h4 class="logo-title d-block d-xl-none" data-setting="app_name">QSA</h4>
+        <h4 class="logo-title d-block d-xl-none" data-setting="app_name">Crud</h4>
     </a>
     <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
         <i class="icon d-flex">
@@ -867,11 +867,11 @@
                         class="img-fluid avatar avatar-50 avatar-rounded" loading="lazy">
                     <div class="caption ms-3 d-none d-md-block ">
                         <h6 class="mb-0 caption-title">{{ Auth::user()->name }}</h6>
-                        <p class="mb-0 caption-sub-title">Marketing Administrator</p>
+                        {{--  <p class="mb-0 caption-sub-title">Marketing Administrator</p>  --}}
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profile-setting">
-                    <li><a class="dropdown-item" href="app/user-profile.html">Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
                     {{--  <li><a class="dropdown-item" href="app/user-privacy-setting.html">Privacy
                             Setting</a></li>
                     <li>  --}}

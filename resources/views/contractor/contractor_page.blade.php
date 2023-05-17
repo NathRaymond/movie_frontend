@@ -33,7 +33,6 @@
                                         <th>Email</th>
                                         <th>Bank</th>
                                         <th>Account No</th>
-                                        <th>Address</th>
                                         <th>sex</th>
                                         <th style="min-width: 100px">Action</th>
                                     </tr>
@@ -47,7 +46,6 @@
                                             <td>{{ $contractor->email ?? '' }}</td>
                                             <td>{{ $contractor->bank ?? '' }}</td>
                                             <td>{{ $contractor->account_no ?? '' }}</td>
-                                            <td>{{ $contractor->address ?? '' }}</td>
                                             <td>{{ $contractor->sex ?? '' }}</td>
                                             <td>
                                                 <div class="flex align-items-center list-user-action">
@@ -168,10 +166,6 @@
                                 <input type="email" name="email" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Office Address</label>
-                                <input type="text" name="address" class="form-control" required>
-                            </div>
-                            <div class="form-group">
                                 <label class="form-label">Sex</label>
                                 <select name="sex" class="form-control" required>
                                     <option selected disabled>Select Gender</option>
@@ -229,10 +223,6 @@
                                 <input type="email" name="email" id="uEmail" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Office Address</label>
-                                <input type="text" name="address" id="uAddress" class="form-control" required>
-                            </div>
-                            <div class="form-group">
                                 <label class="form-label">Sex</label>
                                 <select name="sex" id="uSex" class="form-control" required>
                                     <option selected disabled>Select Gender</option>
@@ -242,7 +232,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save <span
+                                <button type="submit" class="btn btn-primary">Update <span
                                         class="spinner-border loader1 spinner-border-sm" role="status"
                                         aria-hidden="true" style="display:none"></span></button>
                             </div>
@@ -257,14 +247,12 @@
     <script>
         $(document).ready(function() {
             $('body').on('click', '#edit-user', function() {
-                // alert("Nathaniel")
+                // alert("here")
                 var id = $(this).data('id');
                 $.get('{{ route('getcontractor') }}?id=' + id, function(data) {
-                    // console.log(data[2]);
                     $('#uName').val(data.name);
                     $('#uPhone').val(data.phone_number);
                     $('#uEmail').val(data.email);
-                    $('#uAddress').val(data.address);
                     $('#uSex').val(data.sex);
                     $('#uBank').val(data.bank);
                     $('#uaccountNo').val(data.account_no);
@@ -297,7 +285,7 @@
                         //performReset()
                         $("#createUser").submit();
                     } else {
-                        swal("User record will not be added  :)");
+                        swal("Record will not be added  :)");
                     }
                 } catch (e) {
                     if ('message' in e) {
@@ -322,7 +310,7 @@
             async function resetAccount(el, user_id) {
 
                 const willUpdate = await swal({
-                    title: "Confirm User Delete",
+                    title: "Confirm Record Delete",
                     text: `Are you sure you want to delete this record?`,
                     icon: "warning",
                     confirmButtonColor: "#DD6B55",
@@ -333,7 +321,7 @@
                 if (willUpdate) {
                     performDelete(el, user_id);
                 } else {
-                    swal("User will not be deleted  :)");
+                    swal("Record will not be deleted  :)");
                 }
             }
 

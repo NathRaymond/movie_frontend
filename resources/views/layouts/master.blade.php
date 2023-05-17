@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title data-setting="app_name" data-rightJoin="QSA">QSA</title>
-    <meta name="description" content="QSA">
-    <meta name="keywords" content="QSA">
+    <title data-setting="app_name" data-rightJoin="Crud Test">Crud Test</title>
+    <meta name="description" content="Crud Test">
+    <meta name="keywords" content="Crud Test">
     <meta name="author" content="Iqonic Design">
-    <meta name="DC.title" content="QSA">
+    <meta name="DC.title" content="Crud Test">
 
     <!-- Favicon -->
     <link rel="shortcut icon"
@@ -73,15 +73,6 @@
 </head>
 
 <body class="  ">
-    <!-- loader Start -->
-    {{--  <div id="loading">
-        <div class="loader simple-loader">
-            <div class="loader-body ">
-                <img src="https://templates.iqonic.design/product/qompac-ui/html/dist/assets/images/loader.webp"
-                    alt="loader" class="image-loader img-fluid ">
-            </div>
-        </div>
-    </div>  --}}
     <!-- loader END -->
     <aside class="sidebar sidebar-base sidebar-white sidebar-default navs-rounded-all " id="first-tour">
         @include('layouts.sidebar') </aside>

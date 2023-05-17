@@ -67,42 +67,39 @@
                         <div class="card-body">
                            <h2 class="mb-2 text-center">Sign Up</h2>
                            <p class="text-center">Create your Qompac UI account.</p>
-                           <form>
+                           <form method="POST" action="{{ route('register') }}">
+                            @csrf
                               <div class="row">
-                                 <div class="col-lg-6">
+
                                     <div class="form-group">
                                        <label for="full-name" class="form-label">Full Name</label>
-                                       <input type="text" class="form-control" id="full-name" placeholder="John">
+                                       <input type="text" class="form-control" name="name" id="full-name" placeholder="Enter Your Name">
                                     </div>
-                                 </div>
-                                 <div class="col-lg-6">
-                                    <div class="form-group">
-                                       <label for="last-name" class="form-label">Last Name</label>
-                                       <input type="text" class="form-control" id="last-name" placeholder="Doe">
-                                    </div>
-                                 </div>
-                                 <div class="col-lg-6">
+
+
                                     <div class="form-group">
                                        <label for="email" class="form-label">Email</label>
-                                       <input type="email" class="form-control" id="email" placeholder="xyz@example.com">
+                                       <input type="email" class="form-control" name="email" id="email" placeholder="crud@example.com">
                                     </div>
-                                 </div>
-                                 <div class="col-lg-6">
+
                                     <div class="form-group">
                                        <label for="phone" class="form-label">Phone No.</label>
-                                       <input type="text" class="form-control" id="phone" placeholder="123456789">
+                                       <input type="text" class="form-control" name="phone_number" id="phone" placeholder="12345678">
                                     </div>
-                                 </div>
-                                 <div class="col-lg-6">
+
                                     <div class="form-group">
                                        <label for="password" class="form-label">Password</label>
-                                       <input type="password" class="form-control" id="password" placeholder=" ">
-                                    </div>
+                                       <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" placeholder=" ">
+                                       @error('password')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                  </div>
                                  <div class="col-lg-6">
                                     <div class="form-group">
                                        <label for="confirm-password" class="form-label">Confirm Password</label>
-                                       <input type="text" class="form-control" id="confirm-password" placeholder=" ">
+                                       <input type="text" class="form-control" name="password_confirmation" id="confirm-password" placeholder=" ">
                                     </div>
                                  </div>
                                  <div class="col-lg-12 d-flex justify-content-center">

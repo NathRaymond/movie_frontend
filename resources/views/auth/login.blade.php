@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title data-setting="app_name" data-rightJoin=" Responsive Bootstrap 5 Admin Dashboard Template">QSA</title>
-    <meta name="description" content="QSA">
-    <meta name="QSA">
+    <title data-setting="app_name" data-rightJoin=" Responsive Bootstrap 5 Admin Dashboard Template">Crud</title>
+    <meta name="description" content="Crud">
+    <meta name="Crud">
     <meta name="author" content="Iqonic Design">
-    <meta name="DC.title" content="QSA">
+    <meta name="DC.title" content="Crud">
     <!-- Favicon -->
     <link rel="shortcut icon"
         href="https://templates.iqonic.design/product/qompac-ui/html/dist/assets/images/favicon.ico">
@@ -16,16 +16,7 @@
     <!-- Library / Plugin Css Build -->
     <link rel="stylesheet" href="{{ asset('assets/css/core/libs.min.css') }}">
 
-
-
-
-
-
-
-
-
-
-    <!-- QSA-ui Design System Css -->
+    <!-- Crud-ui Design System Css -->
     <link rel="stylesheet" href="{{ asset('assets/css/qompac-ui.minf700.css?v=1.0.1') }}">
 
     <!-- Custom Css -->
@@ -64,7 +55,7 @@
         <section class="login-content overflow-hidden">
             <div class="row no-gutters align-items-center bg-white">
                 <div class="col-md-12 col-lg-6 align-self-center">
-                    <a href="../index.html"
+                    <a href="#"
                         class="navbar-brand d-flex align-items-center mb-3 justify-content-center text-primary">
                         <div class="logo-normal">
                             <svg class="" viewBox="0 0 32 32" width="80px" fill="none"
@@ -75,7 +66,7 @@
                                 <path d="M23.751 30L13.2266 15.2103H21.4755L31.9999 30H23.751Z" fill="#3FF0B9" />
                             </svg>
                         </div>
-                        <h2 class="logo-title ms-3 mb-0" >QSA</h2>
+                        <h2 class="logo-title ms-3 mb-0" >Crud Assesment Test</h2>
                     </a>
                     <div class="row justify-content-center pt-5">
                         <div class="col-md-9">
@@ -119,7 +110,7 @@
                                                     <label class="form-check-label" for="customCheck1">Remember
                                                         Me</label>
                                                 </div>
-                                                <a href="recoverpw.html">Forgot Password?</a>
+                                                <a href="#">Forgot Password?</a>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-center">

@@ -7,7 +7,7 @@
         ©
         <script>
             2022
-        </script> <span data-setting="app_name">QSA</span>, Made with
+        </script> <span data-setting="app_name">Crud Test</span>, Made with
         <span class="text-gray">
             <svg class="icon-16" width="15" viewBox="0 0 24 24" fill="none"
                 xmlns="http://www.w3.org/2000/svg">

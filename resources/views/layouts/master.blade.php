@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title data-setting="app_name" data-rightJoin="Crud Test">Crud Test</title>
-    <meta name="description" content="Crud Test">
-    <meta name="keywords" content="Crud Test">
+    <title data-setting="app_name" data-rightJoin="Movie"></title>
+    <meta name="description" content="Movie">
+    <meta name="keywords" content="Movie">
     <meta name="author" content="Iqonic Design">
-    <meta name="DC.title" content="Crud Test">
+    <meta name="DC.title" content="Movie">
 
     <!-- Favicon -->
     <link rel="shortcut icon"

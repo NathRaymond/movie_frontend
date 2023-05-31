@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,32 +14,34 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
-Route::get('/register', function () {
-    return view('auth.register');
-});
+
+Route::get('/', [App\Http\Controllers\MovieController::class, 'index'])->name('home');
+Route::get('/movie', [App\Http\Controllers\MovieController::class, 'movie_index'])->name('movie_home');
+Route::post('/store-movie', [App\Http\Controllers\MovieController::class, 'store_movie'])->name('store-movie');
+Route::get('/getmovie_detail', [App\Http\Controllers\MovieController::class, 'getmovieInfor'])->name('get_movie');
+Route::post('/update-movie', [App\Http\Controllers\MovieController::class, 'update_movie'])->name('updatemovie');
+Route::get('/delete_movies', [App\Http\Controllers\MovieController::class, 'destroy_movie'])->name('delete_movies');
 Auth::routes();
-Route::group(['middleware' => ['auth']], function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-    Route::group(['prefix' => 'user'], function () {
-        Route::get('/', [App\Http\Controllers\UserController::class, 'user_index'])->name('user_home');
-        Route::post('/stores', [App\Http\Controllers\UserController::class, 'store'])->name('add_new_user');
-        Route::get('/getuser_detail', [App\Http\Controllers\UserController::class, 'getUserInfor'])->name('getuser');
-        Route::post('/update', [App\Http\Controllers\UserController::class, 'update_user'])->name('update-users');
-        Route::get('/delete', [App\Http\Controllers\UserController::class, 'destroy'])->name('delete_user');
-    });
-
-    Route::group(['prefix' => 'contractor'], function () {
-        Route::get('/', [App\Http\Controllers\ContractorController::class, 'contractor_index'])->name('contractor_home');
-        Route::post('/store-contractor', [App\Http\Controllers\ContractorController::class, 'store_contractor'])->name('store-contractor');
-        Route::get('/getcontractor_detail', [App\Http\Controllers\ContractorController::class, 'getcontractorInfor'])->name('getcontractor');
-        Route::post('/update-contractor', [App\Http\Controllers\ContractorController::class, 'update_contractor'])->name('update-contractor');
-        Route::get('/delete-contractor', [App\Http\Controllers\ContractorController::class, 'destroy_contractor'])->name('delete-contractor');
-    });
-
+Route::get('/clear-cache', function () {
+    $exitCode = Artisan::call('config:clear');
+    return $exitCode;
+});
+Route::get('/clear-route', function () {
+    $exitCode = Artisan::call('route:clear');
+    return $exitCode;
+});
+Route::get('/optimize-clear', function () {
+    $exitCode = Artisan::call('optimize:clear');
+    return $exitCode;
 });
 
-Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+Route::get('/clear-view', function () {
+    $exitCode = Artisan::call('view:clear');
+    return $exitCode;
+});
+
+Route::get('/clear-laravel-log-file', function () {
+    exec('rm -f ' . storage_path('logs/*.log'));
+    exec('rm -f ' . base_path('*.log'));
+    return "Log file deleted";
+});
